@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalin Sofan - Product Designer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 24px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #1a1a1a;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 100px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            max-width: 900px;
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 32px;
+            max-width: 1120px;
+            line-height: 1.6;
+        }
+
+        .hero .description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+            max-width: 1120px;
+            line-height: 1.7;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #006DFF;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0052CC;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #1a1a1a;
+            border: 1px solid #e5e5e5;
+        }
+
+        .btn-secondary:hover {
+            border-color: #ccc;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #006DFF;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 48px;
+        }
+
+        /* Case Studies Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .project-card {
+            position: relative;
+            background: #006DFF;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1.4;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .project-card.bitdefender {
+            background: #006DFF;
+        }
+
+        .project-card.bitdefender * {
+            color: white !important;
+        }
+
+        .project-header {
+            flex: 0;
+        }
+
+        .ai-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .project-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            color: white;
+        }
+
+        .project-description {
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            color: white;
+        }
+
+        .project-footer {
+            margin-top: auto;
+        }
+
+        .project-meta {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* About Section */
+        .about {
+            background: #FAFAFA;
+        }
+
+        .about-content {
+            max-width: 1120px;
+        }
+
+        .about-content p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #333;
+            margin-bottom: 24px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .skill-item::before {
+            content: "✓";
+            color: #006DFF;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Principles Section */
+        .principles-container {
+            padding-bottom: 60px;
+        }
+
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+
+        .principle-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px 32px;
+            border-radius: 12px;
+            color: white;
+        }
+
+        .principle-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .principle-description {
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        /* Process Section */
+        .process-section {
+            margin-top: 40px;
+        }
+
+        .process-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .process-card {
+            background: #006DFF;
+            border-radius: 12px;
+            padding: 32px;
+            aspect-ratio: 1.4;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .process-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .process-number {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .process-card-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: white;
+            line-height: 1.2;
+        }
+
+        .process-card-description {
+            font-size: 15px;
+            color: white;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .process-card-footer {
+            margin-top: auto;
+        }
+
+        .process-card-meta {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+        }
+
+        .contact .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-left {
+            flex: 1;
+        }
+
+        .contact h2 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .contact p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .contact-link {
+            padding: 14px 32px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: inline-block;
+            background: white;
+            color: #1a1a1a;
+            border: 1px solid #e5e5e5;
+        }
+
+        .contact-link:hover {
+            background: #006DFF;
+            color: white;
+            border-color: #006DFF;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container, .nav-container {
+                padding: 0 24px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .projects-grid,
+            .principles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Catalin Sofan</div>
+            <ul class="nav-links">
+                <li><a href="#work">Work</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Senior Product Designer<br>specializing in enterprise<br>B2B/SaaS products</h1>
+            <p class="subtitle">Designing complex systems that balance user needs with business goals</p>
+            <p class="description">18+ years crafting intuitive experiences for cybersecurity, healthcare, and business intelligence platforms.<br>I bridge the gap between technical complexity and user simplicity.</p>
+        </div>
+    </section>
+
+    <!-- Case Studies Section -->
+    <section id="work">
+        <div class="container">
+            <div class="section-label">SELECTED WORK</div>
+            <h2 class="section-title">Case Studies</h2>
+
+            <div class="projects-grid">
+                <!-- Enterprise Security Platform -->
+                <div class="project-card bitdefender">
+                    <div class="project-header">
+                        <h3 class="project-title">Enterprise Security Platform</h3>
+                        <p class="project-description">Building a comprehensive design system for enterprise security products with AI-assisted documentation</p>
+                    </div>
+                    <div class="project-footer">
+                        <p class="project-meta">Bitdefender Design System • 2024</p>
+                    </div>
+                </div>
+
+                <!-- Company-Wide Design System -->
+                <div class="project-card bitdefender">
+                    <div class="project-header">
+                        <h3 class="project-title">Company-Wide Design System</h3>
+                        <p class="project-description">Co-creating and maintaining a scalable design system for enterprise cybersecurity products</p>
+                    </div>
+                    <div class="project-footer">
+                        <p class="project-meta">Bitdefender • 2020-2024</p>
+                    </div>
+                </div>
+
+                <!-- Healthcare Collaboration -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Healthcare Collaboration</h3>
+                        <p class="project-description">Clinical collaboration apps designed for demanding healthcare environments</p>
+                    </div>
+                    <div class="project-footer">
+                        <p class="project-meta">Myco Mobile • 2019</p>
+                    </div>
+                </div>
+
+                <!-- Authentication Innovation -->
+                <div class="project-card bitdefender">
+                    <div class="project-header">
+                        <h3 class="project-title">Authentication Innovation</h3>
+                        <p class="project-description">Next-generation authentication feature leveraging AI research for strategic implementation</p>
+                    </div>
+                    <div class="project-footer">
+                        <p class="project-meta">Bitdefender Passkeys • 2024</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Principles & Process Section -->
+    <section id="process" class="principles-container">
+        <div class="container">
+            <div class="section-label">PRINCIPLES AND PROCESSES</div>
+            <h2 class="section-title">Things I Believe In</h2>
+
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <h3 class="principle-title">Power of Knowledge</h3>
+                    <p class="principle-description">Good questions lead to good insights. I believe in deep research and asking "why" until we get to the root of the problem. Surface-level understanding leads to surface-level solutions.</p>
+                </div>
+
+                <div class="principle-card">
+                    <h3 class="principle-title">Good Design is a State of Mind</h3>
+                    <p class="principle-description">Usability + Aesthetics = Emotions. Design isn't just about making things look pretty or work well. It's about creating experiences that make people feel confident, productive, and in control.</p>
+                </div>
+
+                <div class="principle-card">
+                    <h3 class="principle-title">Collaboration is Key</h3>
+                    <p class="principle-description">Great experiences are hard to achieve alone. The best solutions emerge when designers, developers, product managers, and users work together. I design with, not for.</p>
+                </div>
+
+                <div class="principle-card">
+                    <h3 class="principle-title">Change Pushes Innovation</h3>
+                    <p class="principle-description">Fail often and fail early in order to succeed. I embrace experimentation and iteration. The fear of being wrong shouldn't stop us from finding what's right.</p>
+                </div>
+            </div>
+
+            <!-- My Design Process -->
+            <div class="process-section">
+                <h3 class="process-title">My Design Process</h3>
+                <div class="process-grid">
+                    <div class="process-card" onclick="window.location.href='process.html'">
+                        <div class="process-header">
+                            <h4 class="process-card-title">5-Step Design Framework</h4>
+                            <p class="process-card-description">From planning and strategy to prototyping and iteration - a systematic approach to solving complex design problems</p>
+                        </div>
+                        <div class="process-card-footer">
+                            <p class="process-card-meta">Planning • Strategy • Framing • Prototype • Iterate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-label">ABOUT</div>
+            <h2 class="section-title">Background</h2>
+            <div class="about-content">
+                <p>I'm a Senior Product Designer with 18+ years of experience designing enterprise B2B and SaaS products. Most recently, I spent 4 years at Bitdefender designing cybersecurity solutions for MSPs and co-creating the company-wide design system.</p>
+                
+                <p>My approach combines strategic thinking with hands-on execution. I excel at breaking down complex technical requirements into intuitive interfaces that balance user needs with business constraints. I've worked across cybersecurity, healthcare, and business intelligence, always focusing on enterprise products where the stakes are high and the users are demanding.</p>
+
+                <div class="skills-grid">
+                    <div class="skill-item">Enterprise B2B/SaaS Design</div>
+                    <div class="skill-item">Design Systems</div>
+                    <div class="skill-item">Complex Data Visualization</div>
+                    <div class="skill-item">User Research & Testing</div>
+                    <div class="skill-item">Cross-functional Collaboration</div>
+                    <div class="skill-item">Mentoring Junior Designers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-left">
+                <h2>Let's work together</h2>
+                <p>Open to Senior Product Design and Lead opportunities</p>
+            </div>
+            <div class="contact-links">
+                <a href="mailto:your.email@example.com" class="contact-link">Email</a>
+                <a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-link">LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Catalin Sofan. Based in Cluj-Napoca, Romania.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
