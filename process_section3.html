@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process Cătălin Şofan</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --blue: #006DFF;
+            --dark: #1a1a1a;
+            --mid: #444;
+            --muted: #999;
+            --border: #e5e5e5;
+            --bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 200;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 32px;
+            width: auto;
+            display: block;
+        }
+
+        .logo-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--dark);
+        }
+
+        /* ── PROCESS SECTION ── */
+        #process {
+            padding: 72px 0 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--blue);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 16px;
+        }
+
+        .section-intro {
+            font-size: 16px;
+            color: var(--mid);
+            max-width: 560px;
+            line-height: 1.7;
+        }
+
+        /* ── SECTION HEADER TWO-COLUMN ── */
+        .section-header-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        .section-header-right,
+        .step-right,
+        .step-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-header-right,
+        .step-right {
+            height: 530px;
+        }
+
+        .step-visual {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ── STICKY SCROLL STAGE ── */
+        .process-stage {
+            position: relative;
+        }
+
+        .process-sticky-wrap {
+            position: sticky;
+            top: 73px;
+            height: calc(100vh - 73px);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Background number */
+        .bg-number {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: clamp(220px, 30vw, 360px);
+            font-weight: 700;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--border);
+            line-height: 1;
+            user-select: none;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+            z-index: 0;
+        }
+
+        /* Step panels */
+        .steps-container {
+            position: relative;
+            width: 100%;
+            height: 530px;
+            z-index: 1;
+        }
+
+        .step-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .step-panel.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .step-panel.exit {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        .step-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+            padding: 0 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        .step-number-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 16px;
+        }
+
+        .step-title {
+            font-size: clamp(32px, 4.5vw, 52px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .step-body {
+            font-size: 16px;
+            color: var(--mid);
+            line-height: 1.75;
+            margin-bottom: 28px;
+            max-width: 420px;
+        }
+
+        .step-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tool-tag {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--mid);
+            background: #fafafa;
+        }
+
+        /* Image placeholder */
+        .step-image-slot {
+            width: 530px;
+            height: 530px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #F7F7F7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .step-image-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slot-label {
+            font-size: 13px;
+            color: #aaa;
+            font-weight: 500;
+            text-align: center;
+            padding: 0 24px;
+            line-height: 1.5;
+        }
+
+        .slot-hint {
+            font-size: 11px;
+            color: #ccc;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* ── PROGRESS DOTS ── */
+        .progress-dots {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .progress-dots.visible { opacity: 1; }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--blue);
+            transform: scale(1.5);
+        }
+
+        /* ── SCROLL TRIGGERS ── */
+        .scroll-triggers {
+            height: 500vh;
+            position: relative;
+        }
+
+        /* ── STEP INDICATOR ── */
+        .step-indicator {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            z-index: 10;
+        }
+
+        .indicator-line {
+            width: 40px;
+            height: 1px;
+            background: var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .indicator-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: var(--blue);
+            transition: width 0.5s ease;
+        }
+
+        /* ── SCROLL ARROW / TOP BUTTON ── */
+        #scrollCta {
+            position: fixed;
+            right: 40px;
+            bottom: 48px;
+            z-index: 150;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        #scrollCta.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .cta-arrow-down {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: bounce 2.2s ease-in-out infinite;
+        }
+
+        .cta-arrow-down svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(10px); }
+        }
+
+        .cta-top-btn {
+            display: none;
+            width: 100px;
+            height: 100px;
+            background: #f5f5f5;
+            border-radius: 16px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .cta-top-btn:hover {
+            transform: translateY(-4px);
+            background: #ebebeb;
+        }
+
+        .cta-top-btn svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .cta-top-btn span {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--dark);
+            letter-spacing: 0.05em;
+        }
+
+        #scrollCta.is-top .cta-arrow-down { display: none; }
+        #scrollCta.is-top .cta-top-btn    { display: flex; }
+
+        /* ── SCROLL HINT ── */
+        .scroll-hint {
+            text-align: center;
+            font-size: 13px;
+            color: #b0b0b0;
+            padding: 18px 0 0;
+            letter-spacing: 0.03em;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .nav-container { padding: 0 24px; }
+            .section-header-inner { grid-template-columns: 1fr; }
+            .section-header-right { display: none; }
+            .step-inner {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                padding: 0 24px;
+            }
+            .step-right { height: 220px; }
+            .progress-dots { right: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-container">
+        <a href="index.html" class="logo">
+            <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAjACkDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAgHBgP/xAArEAAABAQEBQUBAQAAAAAAAAAAAQIDBAUGBwgRGFUTIUGU0xIxN3WzUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9MONlKVuRQ8ZPJ5MJ1DxLEyXCJTBvNIQaEtNLIzJTajzzWfX+chpulS3m81T3LHhDA38TTT7178IcZlhxspStyKHjJ5PJhOoeJYmS4RKYN5pCDQlppZGZKbUeeaz6/zkA03Spbzeap7ljwhpUt5vNU9yx4Q0qW83mqe5Y8IaVLebzVPcseEBxl7cP9G0RbCb1PKpnP3oyC4PDREvsqbP1vttnmSWkn7LPqXPITMKZvbh/o2iLYTep5VM5+9GQXB4aIl9lTZ+t9ts8yS0k/ZZ9S55CZgFmYG/iaafevfhDhgb+Jpp969+EOGBv4mmn3r34Q4aVLebzVPcseEA0qW83mqe5Y8IaVLebzVPcseENKlvN5qnuWPCGlS3m81T3LHhAcZe3D/RtEWwm9TyqZz96MguDw0RL7Kmz9b7bZ5klpJ+yz6lzyEzC5cRcqh5Dhgmcjg1urhpdCQEIyp0yNakNxDCEmoyIiM8iLPIi/wQ0AAAAAAAAAAA/9k=" alt="Cătălin Şofan">
+            <span class="logo-name">Cătălin Şofan</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="index.html#process">Process</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- SCROLL HINT -->
+<p class="scroll-hint">↓ Scroll down to experience the process</p>
+
+<!-- PROCESS SECTION -->
+<section id="process">
+    <div class="container">
+        <div class="section-header-inner">
+            <div>
+                <div class="section-label">HOW I WORK</div>
+                <h2 class="section-title">The Process</h2>
+                <p class="section-intro">There's no magic formula. Just a framework I've refined across 18 years and dozens of projects structured enough to keep things honest, flexible enough to survive contact with reality.</p>
+            </div>
+            <div class="section-header-right">
+                <div class="step-image-slot">
+                    <div class="slot-label">Section header image placeholder</div>
+                    <div class="slot-hint">Drop image here</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="process-stage">
+        <div class="process-sticky-wrap" id="stickyWrap">
+
+            <div class="bg-number" id="bgNumber">1</div>
+
+            <div class="steps-container" id="stepsContainer">
+
+                <!-- Step 1: Planning -->
+                <div class="step-panel active" data-step="0">
+                    <div class="step-inner">
+                        <div class="step-left">
+                            <div class="step-number-label">01 / 05</div>
+                            <h3 class="step-title">Planning</h3>
+                            <p class="step-body">I start by asking the uncomfortable questions what are we actually solving, and for whom? This phase is about getting everyone in the room aligned before a single pixel gets moved.</p>
+                            <div class="step-tools">
+                                <span class="tool-tag">Workshops</span>
+                                <span class="tool-tag">FigJam</span>
+                                <span class="tool-tag">Claude AI</span>
+                                <span class="tool-tag">Stakeholder interviews</span>
+                            </div>
+                        </div>
+                        <div class="step-right">
+                            <div class="step-visual">
+                                <div class="step-image-slot">
+                                    <div class="slot-label">Planning image placeholder</div>
+                                    <div class="slot-hint">Drop image here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Strategy & Research -->
+                <div class="step-panel" data-step="1">
+                    <div class="step-inner">
+                        <div class="step-left">
+                            <div class="step-number-label">02 / 05</div>
+                            <h3 class="step-title">Strategy &amp; Research</h3>
+                            <p class="step-body">This is where gut feeling meets data. I map user behavior, dig into business constraints, and use frameworks like SWOT and product vision canvases to make sure I'm solving the right problem not just an interesting one.</p>
+                            <div class="step-tools">
+                                <span class="tool-tag">Perplexity AI</span>
+                                <span class="tool-tag">Claude AI</span>
+                                <span class="tool-tag">FigJam</span>
+                                <span class="tool-tag">User interviews</span>
+                                <span class="tool-tag">SWOT</span>
+                            </div>
+                        </div>
+                        <div class="step-right">
+                            <div class="step-visual">
+                                <div class="step-image-slot">
+                                    <div class="slot-label">Strategy &amp; Research image placeholder</div>
+                                    <div class="slot-hint">Drop image here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Framing -->
+                <div class="step-panel" data-step="2">
+                    <div class="step-inner">
+                        <div class="step-left">
+                            <div class="step-number-label">03 / 05</div>
+                            <h3 class="step-title">Framing</h3>
+                            <p class="step-body">The messiest, most honest part of the process. I generate a lot of ideas, most of them bad. Then I narrow down, build personas, map flows, and lock in the logic of what we're building before anyone writes a line of code.</p>
+                            <div class="step-tools">
+                                <span class="tool-tag">FigJam</span>
+                                <span class="tool-tag">Gemini AI</span>
+                                <span class="tool-tag">User flows</span>
+                                <span class="tool-tag">Personas</span>
+                                <span class="tool-tag">Brainstorming</span>
+                            </div>
+                        </div>
+                        <div class="step-right">
+                            <div class="step-visual">
+                                <div class="step-image-slot">
+                                    <div class="slot-label">Framing image placeholder</div>
+                                    <div class="slot-hint">½ Onion · It's all about layers</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Prototype -->
+                <div class="step-panel" data-step="3">
+                    <div class="step-inner">
+                        <div class="step-left">
+                            <div class="step-number-label">04 / 05</div>
+                            <h3 class="step-title">Prototype</h3>
+                            <p class="step-body">Thinking made tangible. I keep fidelity deliberately low in early rounds clients fall in love with polish, and that's dangerous before you've validated anything. The goal is something testable, not something pretty.</p>
+                            <div class="step-tools">
+                                <span class="tool-tag">Figma</span>
+                                <span class="tool-tag">Axure</span>
+                                <span class="tool-tag">Wireframing</span>
+                                <span class="tool-tag">Usability testing</span>
+                            </div>
+                        </div>
+                        <div class="step-right">
+                            <div class="step-visual">
+                                <div class="step-image-slot">
+                                    <div class="slot-label">Prototype image placeholder</div>
+                                    <div class="slot-hint">Zebra chess piece · Never been done</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Iterate -->
+                <div class="step-panel" data-step="4">
+                    <div class="step-inner">
+                        <div class="step-left">
+                            <div class="step-number-label">05 / 05</div>
+                            <h3 class="step-title">Iterate</h3>
+                            <p class="step-body">It never really ends, and that's the point. I test each outcome, absorb the feedback, and go again. Not because the first answer was wrong but because better answers tend to show up after you've lived with the first one for a while.</p>
+                            <div class="step-tools">
+                                <span class="tool-tag">Figma</span>
+                                <span class="tool-tag">Claude AI</span>
+                                <span class="tool-tag">A/B testing</span>
+                                <span class="tool-tag">User feedback loops</span>
+                            </div>
+                        </div>
+                        <div class="step-right">
+                            <div class="step-visual">
+                                <div class="step-image-slot">
+                                    <div class="slot-label">Iterate image placeholder</div>
+                                    <div class="slot-hint">Drop image here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /steps-container -->
+
+            <div class="step-indicator">
+                <span id="indicatorText">01 / 05</span>
+                <div class="indicator-line">
+                    <div class="indicator-fill" id="indicatorFill"></div>
+                </div>
+            </div>
+
+        </div><!-- /sticky-wrap -->
+
+        <div class="scroll-triggers" id="scrollTriggers"></div>
+
+    </div><!-- /process-stage -->
+
+</section>
+
+<!-- PROGRESS DOTS -->
+<div class="progress-dots" id="progressDots">
+    <div class="dot active" data-target="0"></div>
+    <div class="dot" data-target="1"></div>
+    <div class="dot" data-target="2"></div>
+    <div class="dot" data-target="3"></div>
+    <div class="dot" data-target="4"></div>
+</div>
+
+<!-- SCROLL ARROW / TOP BUTTON -->
+<div id="scrollCta">
+    <div class="cta-arrow-down">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5V19M12 19L6 13M12 19L18 13" stroke="#333333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+    <div class="cta-top-btn" id="topBtn">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 19V5M12 5L6 11M12 5L18 11" stroke="#333333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>TOP</span>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <p>© 2026 Cătălin Şofan. Based in Cluj-Napoca, Romania.</p>
+    </div>
+</footer>
+
+<script>
+    const steps          = document.querySelectorAll('.step-panel');
+    const bgNumber       = document.getElementById('bgNumber');
+    const progressDots   = document.getElementById('progressDots');
+    const dots           = document.querySelectorAll('.dot');
+    const indicatorText  = document.getElementById('indicatorText');
+    const indicatorFill  = document.getElementById('indicatorFill');
+    const scrollTriggers = document.getElementById('scrollTriggers');
+    const scrollCta      = document.getElementById('scrollCta');
+    const topBtn         = document.getElementById('topBtn');
+
+    const STEP_COUNT = steps.length;
+    let currentStep  = -1;
+
+    function setStep(index) {
+        if (index === currentStep) return;
+        index = Math.max(0, Math.min(STEP_COUNT - 1, index));
+
+        if (currentStep >= 0) {
+            steps[currentStep].classList.remove('active');
+            steps[currentStep].classList.add('exit');
+            setTimeout(() => steps[currentStep]?.classList.remove('exit'), 700);
+        }
+
+        currentStep = index;
+        steps[index].classList.add('active');
+        bgNumber.textContent = index + 1;
+        dots.forEach((d, i) => d.classList.toggle('active', i === index));
+
+        const pad = n => String(n).padStart(2, '0');
+        indicatorText.textContent = `${pad(index + 1)} / ${pad(STEP_COUNT)}`;
+        indicatorFill.style.width = `${((index + 1) / STEP_COUNT) * 100}%`;
+
+        scrollCta.classList.toggle('is-top', index === STEP_COUNT - 1);
+    }
+
+    function onScroll() {
+        const stageEl     = document.querySelector('.process-stage');
+        const stageTop    = stageEl.getBoundingClientRect().top + window.scrollY;
+        const stageHeight = scrollTriggers.offsetHeight;
+        const scrolled    = window.scrollY - stageTop;
+        const progress    = scrolled / stageHeight;
+        const stepIndex   = Math.floor(progress * STEP_COUNT);
+        const inSection   = progress >= 0 && progress <= 1;
+        const pastSection = progress > 1;
+
+        progressDots.classList.toggle('visible', inSection);
+        scrollCta.classList.toggle('visible', inSection || pastSection);
+
+        setStep(stepIndex);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const target      = parseInt(dot.dataset.target);
+            const stageEl     = document.querySelector('.process-stage');
+            const stageTop    = stageEl.getBoundingClientRect().top + window.scrollY;
+            const stageHeight = scrollTriggers.offsetHeight;
+            const targetScroll = stageTop + (target / STEP_COUNT) * stageHeight + 10;
+            window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        });
+    });
+
+    topBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    setStep(0);
+</script>
+
+</body>
+</html>
