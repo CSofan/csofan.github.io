@@ -414,6 +414,26 @@
         #scrollCta.is-top .cta-arrow-down { display: none; }
         #scrollCta.is-top .cta-top-btn    { display: flex; }
 
+        /* ── BACK LINK ── */
+        .back-link {
+            display: block;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 40px 0;
+            font-size: 15px;
+            color: #666;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--dark);
+        }
+
+        @media (max-width: 768px) {
+            .back-link { padding: 16px 24px 0; }
+        }
+
         /* ── SCROLL HINT ── */
         .scroll-hint {
             text-align: center;
@@ -467,6 +487,9 @@
 
 <!-- SCROLL HINT -->
 <p class="scroll-hint">↓ Scroll down to experience the process</p>
+
+<!-- BACK LINK -->
+<a href="https://csofan.github.io/index.html#work" class="back-link">← Back to Work</a>
 
 <!-- PROCESS SECTION -->
 <section id="process">
