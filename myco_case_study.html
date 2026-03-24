@@ -1,1 +1,523 @@
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYCO Healthcare - Cătălin Şofan</title>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+        nav {
+            padding: 24px 0;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            background: #ffffff;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo img { height: 32px; width: auto; display: block; }
+        .logo-name { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a { color: #666; text-decoration: none; font-size: 15px; transition: color 0.2s; }
+        .nav-links a:hover { color: #1a1a1a; }
+
+        .hero { padding: 80px 0 60px; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            text-decoration: none;
+            font-size: 15px;
+            margin-bottom: 40px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #1a1a1a; }
+
+        .hero h1 { font-size: 56px; font-weight: 700; line-height: 1.2; margin-bottom: 24px; }
+        .hero .meta { font-size: 16px; color: #666; margin-bottom: 40px; }
+        .hero .intro { font-size: 20px; line-height: 1.6; color: #333; max-width: 1120px; }
+
+        section { padding: 60px 0; }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #006DFF;
+            margin-bottom: 16px;
+        }
+
+        .section-title { font-size: 40px; font-weight: 700; margin-bottom: 32px; }
+        .section-content { max-width: 1120px; }
+        .section-content p { font-size: 18px; line-height: 1.7; color: #333; margin-bottom: 24px; }
+        .section-content ul { list-style: none; padding: 0; margin-bottom: 24px; }
+        .section-content ul li {
+            font-size: 18px; line-height: 1.7; color: #333;
+            padding-left: 32px; position: relative; margin-bottom: 16px;
+        }
+        .section-content ul li:before {
+            content: "—"; position: absolute; left: 0; color: #006DFF; font-weight: 600;
+        }
+
+        .image-full {
+            margin: 48px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e5e5e5;
+        }
+        .image-full img { width: 100%; display: block; }
+
+        /* Process cards (reused for Decision section) */
+        .process-cards { display: flex; flex-direction: column; gap: 24px; margin-top: 48px; }
+
+        .process-card {
+            width: 100%;
+            max-width: 1120px;
+            min-height: 240px;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+            background: #ffffff;
+            display: flex;
+            align-items: stretch;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .process-card:hover { transform: translateY(-4px); }
+
+        .process-card-content {
+            flex: 1;
+            padding: 40px 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .process-card-phase {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #006DFF;
+            margin-bottom: 12px;
+        }
+
+        .process-card-title { font-size: 28px; font-weight: 700; color: #1a1a1a; margin-bottom: 16px; line-height: 1.2; }
+
+        .process-card-description { font-size: 16px; color: #555; line-height: 1.7; max-width: 520px; }
+
+        .process-card-image {
+            width: 420px;
+            flex-shrink: 0;
+            background: #F7F7F7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .process-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin: 48px 0; }
+        .stat-item { text-align: center; background: #F7F7F7; border-radius: 12px; padding: 40px 24px; }
+        .stat-item h3 { font-size: 40px; font-weight: 700; margin-bottom: 12px; color: #006DFF; }
+        .stat-item p { font-size: 16px; color: #666; line-height: 1.5; }
+
+        /* Carousel */
+        .carousel-wrapper { margin-top: 48px; position: relative; }
+        .carousel-track-container { overflow: hidden; border-radius: 12px; border: 1px solid #e5e5e5; }
+        .carousel-track { display: flex; transition: transform 0.4s ease; }
+        .carousel-slide { min-width: 100%; background: #F7F7F7; }
+        .carousel-slide-image {
+            width: 100%; height: 630px;
+            display: flex; align-items: center; justify-content: center;
+            background: #ffffff; overflow: hidden;
+        }
+        .carousel-slide-image img { width: 100%; height: 100%; object-fit: contain; display: block; }
+        .carousel-caption { padding: 20px 32px; background: #ffffff; border-top: 1px solid #e5e5e5; }
+        .carousel-caption h3 { font-size: 18px; font-weight: 600; color: #1a1a1a; }
+        .carousel-controls { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
+        .carousel-btn {
+            width: 44px; height: 44px; border-radius: 50%;
+            border: 1px solid #e5e5e5; background: #ffffff;
+            cursor: pointer; display: flex; align-items: center;
+            justify-content: center; transition: all 0.2s; flex-shrink: 0;
+        }
+        .carousel-btn:hover { background: #006DFF; border-color: #006DFF; }
+        .carousel-btn:hover svg path { stroke: #ffffff; }
+        .carousel-btn svg { width: 18px; height: 18px; }
+        .carousel-dots { display: flex; gap: 8px; align-items: center; }
+        .carousel-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #e5e5e5; cursor: pointer; transition: all 0.2s; border: none; padding: 0;
+        }
+        .carousel-dot.active { background: #006DFF; width: 24px; border-radius: 4px; }
+        .carousel-counter { font-size: 13px; color: #999; margin-left: auto; }
+
+        /* Learning */
+        .learning-box {
+            background: rgba(0, 0, 0, 0.85); color: white;
+            padding: 56px 48px; border-radius: 12px; margin: 48px 0 32px;
+        }
+        .learning-box h3 { font-size: 28px; font-weight: 700; margin-bottom: 24px; line-height: 1.3; }
+        .learning-box p { font-size: 18px; line-height: 1.7; margin-bottom: 20px; opacity: 0.9; }
+        .learning-box p:last-child { margin-bottom: 0; }
+
+        .reflection-box {
+            border-left: 3px solid #006DFF;
+            padding: 24px 32px; background: #FAFAFA; border-radius: 0 12px 12px 0;
+        }
+        .reflection-box p { font-size: 17px; line-height: 1.7; color: #444; margin: 0; }
+
+        footer {
+            padding: 40px 0; text-align: center;
+            color: #999; font-size: 13px; border-top: 1px solid #e5e5e5;
+        }
+
+        @media (max-width: 1200px) { .process-card-image { width: 320px; } }
+        @media (max-width: 768px) {
+            .container, .nav-container { padding: 0 24px; }
+            .hero h1 { font-size: 40px; }
+            .section-title { font-size: 32px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .carousel-slide-image { height: 320px; }
+            .process-card { flex-direction: column; }
+            .process-card-image { width: 100%; height: 200px; }
+        }
+    </style>
+</head>
+<body>
+<nav>
+<div class="nav-container">
+<a class="logo" href="index.html">
+<img alt="Cătălin Şofan" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAjACkDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAgHBgP/xAArEAAABAQEBQUBAQAAAAAAAAAAAQIDBAUGBwgRGFUTIUGU0xIxN3WzUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9MONlKVuRQ8ZPJ5MJ1DxLEyXCJTBvNIQaEtNLIzJTajzzWfX+chpulS3m81T3LHhDA38TTT7178IcZlhxspStyKHjJ5PJhOoeJYmS4RKYN5pCDQlppZGZKbUeeaz6/zkA03Spbzeap7ljwhpUt5vNU9yx4Q0qW83mqe5Y8IaVLebzVPcseEBxl7cP9G0RbCb1PKpnP3oyC4PDREvsqbP1vttnmSWkn7LPqXPITMKZvbh/o2iLYTep5VM5+9GQXB4aIl9lTZ+t9ts8yS0k/ZZ9S55CZgFmYG/iaafevfhDhgb+Jpp969+EOGBv4mmn3r34Q4aVLebzVPcseEA0qW83mqe5Y8IaVLebzVPcseENKlvN5qnuWPCGlS3m81T3LHhAcZe3D/RtEWwm9TyqZz96MguDw0RL7Kmz9b7bZ5klpJ+yz6lzyEzC5cRcqh5Dhgmcjg1urhpdCQEIyp0yNakNxDCEmoyIiM8iLPIi/wQ0AAAAAAAAAAA/9k="/>
+<span class="logo-name">Cătălin Şofan</span>
+</a>
+<ul class="nav-links">
+<li><a href="index.html#work">Work</a></li>
+<li><a href="index.html#process">Process</a></li>
+<li><a href="index.html#about">About</a></li>
+<li><a href="index.html#contact">Contact</a></li>
+</ul>
+</div>
+</nav>
+<!-- Hero -->
+<section class="hero">
+<div class="container">
+<a class="back-link" href="index.html#work">← Back to Work</a>
+<h1>MYCO Healthcare</h1>
+<p class="meta">Role: UX Designer  ·  Client: Ascom  ·  Context: Hospital Mobile Platform</p>
+<p class="intro">Designing two focused mobile applications for hospital nurses using the Ascom MYCO 2 device, reducing cognitive load in one of the most demanding work environments imaginable.</p>
+</div>
+</section>
+<!-- Context & Role -->
+<section style="background: #FAFAFA;">
+<div class="container">
+<div class="section-label">CONTEXT &amp; ROLE</div>
+<h2 class="section-title">The Brief and My Part in It</h2>
+<div class="section-content">
+<p>Ascom, a Swiss enterprise communications company, had developed the MYCO 2: an enterprise-grade smartphone built specifically for hospital nurses. The hardware was solid. The problem was the environment it had to work in.</p>
+<p>I joined as UX designer alongside a colleague, responsible for on-site research, concept design, user flows, wireframes, and guerrilla testing. We had a tight timeline and no room for assumptions.</p>
+<ul>
+<li>On-site user research and nurse shadowing</li>
+<li>Concept definition and design direction</li>
+<li>User flows and wireframes for both applications</li>
+<li>Guerrilla usability testing with hospital staff</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- The Problem -->
+<section>
+<div class="container">
+<div class="section-label">THE PROBLEM</div>
+<h2 class="section-title">Four Screens, One Nurse, Zero Margin for Error</h2>
+<div class="section-content">
+<p>Throughout a shift, nurses were monitoring 3-4 different screens simultaneously. One showed which patients needed attention. Another held medication schedules. A third handled staff communication. A fourth managed alarm notifications from multiple sources across the ward.</p>
+<p>The result was complete cognitive overload. And we couldn't fix the other screens. We had no control over the hospital's existing systems. We had to design something that worked alongside them, not against them.</p>
+<p>We spent a full day shadowing a nurse through his complete shift. We watched every touchpoint, every interruption, every moment where the system friction translated into a real cost on his attention. That evening we threw out our original concept and started over.</p>
+</div>
+</div>
+</section>
+<!-- Research -->
+<section style="background: #FAFAFA;">
+<div class="container">
+<div class="section-label">RESEARCH</div>
+<h2 class="section-title">One Day, One Nurse, One Shift</h2>
+<div class="section-content">
+<p>We went into the project expecting to design a single unified app. Competitors were doing the same: enterprise messaging tools, patient-alert platforms, coordination apps. Most followed the same logic: put everything in one place. None of them were solving the real problem, because the problem wasn't the number of apps. It was the cost of switching mental modes mid-task.</p>
+<p>We spent a full day at the hospital shadowing one nurse through his shift. Not an interview, not a workshop: an entire day, room to room, from handover to handover. We watched an alarm fire on one device while he was mid-conversation on another. We saw him physically glance between screens trying to prioritize, abandon one task to handle another, then try to remember where he was. By the end of the shift we knew we needed to start over.</p>
+<p>The insight was simple once we saw it: communication and patient care are two fundamentally different mental modes. Mixing them forces constant context-switching, which is exactly what the environment was already punishing nurses for.</p>
+</div>
+<div class="image-full">
+<img alt="MYCO 2 device" src="images/myco-2-device.png"/>
+</div>
+<div class="image-full">
+<img alt="Nurse using MYCO device in hospital" src="images/nurse-using-myco-device-in-hospital.png"/>
+</div>
+</div>
+</section>
+<!-- The Decision -->
+<section>
+<div class="container">
+<div class="section-label">THE DECISION</div>
+<h2 class="section-title">Two Apps, Not One</h2>
+<div class="section-content">
+<p>When nurses were checking on a patient, they didn't want to be interrupted by a chat notification. When they were in a conversation, they didn't want patient data competing for attention. The cognitive cost of context-switching was the problem. A single app would have reproduced exactly what we were trying to solve.</p>
+</div>
+<div class="process-cards" style="margin-top: 48px;">
+<div class="process-card">
+<div class="process-card-content">
+<div class="process-card-phase">App 1</div>
+<h3 class="process-card-title">Chat App</h3>
+<p class="process-card-description">Dedicated strictly to communication between nurses and staff. 1-to-1 messages, group chats, patient-linked conversations, and announcements. Clean and distraction-free, with every chat type accessible from a single overview.</p>
+</div>
+<div class="process-card-image">
+<img alt="Chat UI sketches" src="images/chat-ui-sketches.png"/>
+</div>
+</div>
+<div class="process-card">
+<div class="process-card-content">
+<div class="process-card-phase">App 2</div>
+<h3 class="process-card-title">Patient App</h3>
+<p class="process-card-description">Focused entirely on patient information: medical status, staff assignments, alarms, and care coordination. Three-tab structure per patient: Info, Staff, and Chats. Nothing that doesn't belong to patient care lives here.</p>
+</div>
+<div class="process-card-image">
+<img alt="Patients UI sketches" src="images/patients-ui-sketches.png"/>
+</div>
+</div>
+</div>
+<div class="section-content" style="margin-top: 40px;">
+<p>The two apps connect. A patient-linked chat initiated from the Patient App surfaces in the Chat App. A nurse can jump from a conversation directly to the relevant patient's record. Separation of concerns does not mean isolation.</p>
+</div>
+</div>
+</section>
+<!-- User Flows -->
+<section style="background: #FAFAFA;">
+<div class="container">
+<div class="section-label">USER FLOWS</div>
+<h2 class="section-title">Mapping the Connections</h2>
+<div class="section-content">
+<p>The flows document how the two apps connect in practice: creating a new chat from the patient page, opening an existing chat, and navigating back from a patient-related conversation to the patient record.</p>
+</div>
+<div class="image-full">
+<img alt="Patient and Chat user flows" src="images/patient-and-chat-user-flows.jpg"/>
+</div>
+</div>
+</section>
+<!-- Chat App -->
+<section>
+<div class="container">
+<div class="section-label">CHAT APPLICATION</div>
+<h2 class="section-title">Focused Communication</h2>
+<div class="section-content">
+<p>The Chat App handles all communication between clinical staff. From the overview screen, nurses can see every conversation type at a glance. New chats, group conversations, and patient-linked messages each have a distinct visual identity to reduce scanning effort under time pressure.</p>
+</div>
+<div class="carousel-wrapper">
+<div class="carousel-track-container">
+<div class="carousel-track" id="chatCarouselTrack">
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Chat App 1" src="images/chat-app-1.png"/></div>
+<div class="carousel-caption"><h3>Login, Overview &amp; Contacts</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Chat App 2" src="images/chat-app-2.png"/></div>
+<div class="carousel-caption"><h3>Search user</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Chat App 3" src="images/chat-app-3.png"/></div>
+<div class="carousel-caption"><h3>Delete conversation flow</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Chat App 4" src="images/chat-app-4.png"/></div>
+<div class="carousel-caption"><h3>Delete &amp; confirmation</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Chat App 5" src="images/chat-app-5.png"/></div>
+<div class="carousel-caption"><h3>Search history</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Chat App 6" src="images/chat-app-6.png"/></div>
+<div class="carousel-caption"><h3>Predefined messages</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Chat App 7" src="images/chat-app-7.png"/></div>
+<div class="carousel-caption"><h3>Retry sending message</h3></div>
+</div>
+</div>
+</div>
+<div class="carousel-controls">
+<button aria-label="Previous" class="carousel-btn" id="chatPrevBtn">
+<svg fill="none" viewbox="0 0 24 24"><path d="M15 18L9 12L15 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<button aria-label="Next" class="carousel-btn" id="chatNextBtn">
+<svg fill="none" viewbox="0 0 24 24"><path d="M9 18L15 12L9 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="carousel-dots" id="chatCarouselDots"></div>
+<span class="carousel-counter" id="chatCarouselCounter">1 / 7</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Patient App -->
+<section style="background: #FAFAFA;">
+<div class="container">
+<div class="section-label">PATIENT APPLICATION</div>
+<h2 class="section-title">Patient-Centered Care</h2>
+<div class="section-content">
+<p>The Patient App gives nurses a complete view of each patient through three tabs: Info, Staff, and Chats. Patient information stays visible at the top on scroll. The Staff tab shows assigned caregivers with availability status and quick actions. The Chats tab surfaces only conversations linked to that patient.</p>
+</div>
+<div class="carousel-wrapper">
+<div class="carousel-track-container">
+<div class="carousel-track" id="patientCarouselTrack">
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Patient App 1" src="images/patient-app-1.png"/></div>
+<div class="carousel-caption"><h3>Server setup and login errors</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Patient App 2" src="images/patient-app-2.png"/></div>
+<div class="carousel-caption"><h3>Login, loading, empty state</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Patient App 3" src="images/patient-app-3.png"/></div>
+<div class="carousel-caption"><h3>Patient List, Menu and Search</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Patient App 4" src="images/patient-app-4.png"/></div>
+<div class="carousel-caption"><h3>Search patient by name &amp; Logout</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Patient App 5" src="images/patient-app-5.png"/></div>
+<div class="carousel-caption"><h3>Patient info, Assigned staff, Chat staff</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Patient App 6" src="images/patient-app-6.png"/></div>
+<div class="carousel-caption"><h3>Chat staff assigned per patient</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Patient App 7" src="images/patient-app-7.png"/></div>
+<div class="carousel-caption"><h3>Chat actions and clear feed</h3></div>
+</div>
+<div class="carousel-slide">
+<div class="carousel-slide-image"><img alt="Patient App 8" src="images/patient-app-8.png"/></div>
+<div class="carousel-caption"><h3>User profile &amp; about</h3></div>
+</div>
+</div>
+</div>
+<div class="carousel-controls">
+<button aria-label="Previous" class="carousel-btn" id="patientPrevBtn">
+<svg fill="none" viewbox="0 0 24 24"><path d="M15 18L9 12L15 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<button aria-label="Next" class="carousel-btn" id="patientNextBtn">
+<svg fill="none" viewbox="0 0 24 24"><path d="M9 18L15 12L9 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="carousel-dots" id="patientCarouselDots"></div>
+<span class="carousel-counter" id="patientCarouselCounter">1 / 8</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Validation -->
+<section>
+<div class="container">
+<div class="section-label">VALIDATION</div>
+<h2 class="section-title">Testing in the Wild</h2>
+<div class="stats-grid">
+<div class="stat-item">
+<h3>5</h3>
+<p>Nurses tested the concept in guerrilla sessions</p>
+</div>
+<div class="stat-item">
+<h3>1 Day</h3>
+<p>Full shift shadowing before redesign</p>
+</div>
+<div class="stat-item">
+<h3>2 Apps</h3>
+<p>Instead of one, by deliberate design decision</p>
+</div>
+</div>
+<div class="section-content" style="margin-top: 16px;">
+<p>The day after our redesign sprint, we ran guerrilla testing with five nurses using cafeteria vouchers as incentives. The feedback was clear: nurses appreciated being able to focus on one context at a time. Checking patient information without chat notifications competing for attention was exactly what they needed. The separation felt natural, not fragmenting.</p>
+</div>
+</div>
+</section>
+<!-- Key Learnings -->
+<section style="background: #FAFAFA;">
+<div class="container">
+<div class="section-label">KEY LEARNINGS</div>
+<h2 class="section-title">What This Project Taught Me</h2>
+<div class="learning-box">
+<h3>Design for the ecosystem, not just the product</h3>
+<p>We had no control over the other systems nurses were using. We couldn't change the medication screen, the alarm panel, or the patient records system. Our only option was to understand how our product would live alongside them, and design accordingly.</p>
+<p>One full day of shadowing revealed more than any brief or requirements document could have. Seeing cognitive load in real-time, watching the interruptions stack up, understanding the cost of each context-switch: that's the research that shaped every decision we made.</p>
+</div>
+<div class="reflection-box">
+<p><strong>What I'd do differently:</strong> I'd push for more time in the hospital before the design phase, not just one day. The shadowing session was transformative but compressed. A second day with a different nurse on a different unit would have stress-tested our assumptions considerably earlier.</p>
+</div>
+</div>
+</section>
+<footer>
+<div class="container">
+<p>© 2026 Cătălin Şofan. Based in Cluj-Napoca, Romania.</p>
+</div>
+</footer>
+<script>
+        function initCarousel(trackId, prevId, nextId, dotsId, counterId) {
+            const track = document.getElementById(trackId);
+            const slides = track.querySelectorAll('.carousel-slide');
+            const dotsContainer = document.getElementById(dotsId);
+            const counter = document.getElementById(counterId);
+            const total = slides.length;
+            let current = 0;
+
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+                dot.addEventListener('click', () => goTo(i));
+                dotsContainer.appendChild(dot);
+            });
+
+            function goTo(index) {
+                current = (index + total) % total;
+                track.style.transform = `translateX(-${current * 100}%)`;
+                dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === current);
+                });
+                counter.textContent = `${current + 1} / ${total}`;
+            }
+
+            document.getElementById(prevId).addEventListener('click', () => goTo(current - 1));
+            document.getElementById(nextId).addEventListener('click', () => goTo(current + 1));
+        }
+
+        initCarousel('chatCarouselTrack', 'chatPrevBtn', 'chatNextBtn', 'chatCarouselDots', 'chatCarouselCounter');
+        initCarousel('patientCarouselTrack', 'patientPrevBtn', 'patientNextBtn', 'patientCarouselDots', 'patientCarouselCounter');
+    </script>
+</body>
+</html>
