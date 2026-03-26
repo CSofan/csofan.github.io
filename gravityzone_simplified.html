@@ -1,755 +1,674 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Enterprise Security Platform - Cătălin Şofan</title>
 <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background: #ffffff;
-        }
+    body {
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        line-height: 1.6;
+        color: #1a1a1a;
+        background: #ffffff;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
 
-        /* Navigation */
-        nav {
-            padding: 24px 0;
-            border-bottom: 1px solid #e5e5e5;
-            position: sticky;
-            top: 0;
-            background: #ffffff;
-            z-index: 100;
-        }
+    /* ── NAV ── */
+    nav {
+        padding: 24px 0;
+        border-bottom: 1px solid #e5e5e5;
+        position: sticky;
+        top: 0;
+        background: #ffffff;
+        z-index: 300;
+    }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
+    .logo { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo img { height: 32px; width: auto; display: block; }
+    .logo-name { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: #666; text-decoration: none; font-size: 15px; transition: color 0.2s; }
+    .nav-links a:hover { color: #1a1a1a; }
 
-        .logo img {
-            height: 32px;
-            width: auto;
-            display: block;
-        }
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 28px; height: 20px;
+        cursor: pointer; background: none; border: none; padding: 0;
+    }
 
-        .logo-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
+    .hamburger span { display: block; height: 2px; background: #1a1a1a; border-radius: 2px; }
 
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-        }
+    /* ── MOBILE NAV ── */
+    .mobile-nav {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: #ffffff;
+        z-index: 350;
+        flex-direction: column;
+    }
 
-        .nav-links a {
-            color: #666;
-            text-decoration: none;
-            font-size: 15px;
-            transition: color 0.2s;
-        }
+    .mobile-nav.open { display: flex; }
 
-        .nav-links a:hover { color: #1a1a1a; }
+    .mobile-nav-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 24px 20px;
+        border-bottom: 1px solid #e5e5e5;
+        flex-shrink: 0;
+    }
 
-        /* Hero */
-        .hero { padding: 80px 0 60px; }
+    .mobile-nav-close { background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; }
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #666;
-            text-decoration: none;
-            font-size: 15px;
-            margin-bottom: 40px;
-            transition: color 0.2s;
-        }
+    .mobile-nav-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 24px;
+        text-align: center;
+    }
 
-        .back-link:hover { color: #1a1a1a; }
+    .mobile-nav-section-label {
+        font-size: 11px; font-weight: 700;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        color: #1a1a1a;
+        margin-bottom: 12px; margin-top: 28px;
+    }
 
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 24px;
-        }
+    .mobile-nav-section-label:first-child { margin-top: 0; }
 
-        .hero .meta {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 40px;
-        }
+    .mobile-nav-link {
+        display: block; font-size: 18px;
+        color: #444; text-decoration: none;
+        padding: 9px 0; transition: color 0.2s; width: 100%;
+    }
 
-        .hero .intro {
-            font-size: 20px;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1120px;
-        }
+    .mobile-nav-link:hover,
+    .mobile-nav-link.active { color: #006DFF; }
 
-        /* Sections */
-        section { padding: 60px 0; }
+    .mobile-nav-footer {
+        flex-shrink: 0; padding: 24px;
+        border-top: 1px solid #e5e5e5;
+        display: flex; gap: 12px;
+    }
 
-        .section-label {
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #006DFF;
-            margin-bottom: 16px;
-        }
+    .mobile-nav-footer a {
+        flex: 1; padding: 13px; text-align: center;
+        font-size: 14px; font-weight: 600;
+        color: #1a1a1a; text-decoration: none;
+        border: 1px solid #e5e5e5; border-radius: 8px;
+        transition: all 0.2s;
+    }
 
-        .section-title {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 32px;
-        }
+    .mobile-nav-footer a:hover { background: #006DFF; color: white; border-color: #006DFF; }
 
-        .section-content { max-width: 1120px; }
+    /* ── HERO ── */
+    .hero { padding: 80px 0 60px; }
 
-        .section-content p {
-            font-size: 18px;
-            line-height: 1.7;
-            color: #333;
-            margin-bottom: 24px;
-        }
+    .back-link {
+        display: inline-flex; align-items: center; gap: 8px;
+        color: #666; text-decoration: none; font-size: 15px;
+        margin-bottom: 40px; transition: color 0.2s;
+    }
+    .back-link:hover { color: #1a1a1a; }
 
-        .section-content ul {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 24px;
-        }
+    .hero h1 { font-size: 56px; font-weight: 700; line-height: 1.2; margin-bottom: 24px; }
+    .hero .meta { font-size: 16px; color: #666; margin-bottom: 40px; }
+    .hero .intro { font-size: 20px; line-height: 1.6; color: #333; max-width: 1120px; }
 
-        .section-content ul li {
-            font-size: 18px;
-            line-height: 1.7;
-            color: #333;
-            padding-left: 32px;
-            position: relative;
-            margin-bottom: 16px;
-        }
+    section { padding: 60px 0; }
 
-        .section-content ul li:before {
-            content: "—";
-            position: absolute;
-            left: 0;
-            color: #006DFF;
-            font-weight: 600;
-        }
+    .section-label {
+        font-size: 12px; font-weight: 600;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        color: #006DFF; margin-bottom: 16px;
+    }
 
-        /* Full-width image */
-        .image-full {
-            margin: 48px 0;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #e5e5e5;
-        }
+    .section-title { font-size: 40px; font-weight: 700; margin-bottom: 32px; }
+    .section-content { max-width: 1120px; }
+    .section-content p { font-size: 18px; line-height: 1.7; color: #333; margin-bottom: 24px; }
+    .section-content ul { list-style: none; padding: 0; margin-bottom: 24px; }
+    .section-content ul li {
+        font-size: 18px; line-height: 1.7; color: #333;
+        padding-left: 32px; position: relative; margin-bottom: 16px;
+    }
+    .section-content ul li:before { content: "—"; position: absolute; left: 0; color: #006DFF; font-weight: 600; }
 
-        .image-full img {
-            width: 100%;
-            display: block;
-        }
+    /* ── FULL WIDTH IMAGES ── */
+    .image-full { margin: 48px 0; border-radius: 12px; overflow: hidden; border: 1px solid #e5e5e5; }
+    .image-full img { width: 100%; display: block; }
 
-        /* Journey / Process Cards */
-        .journey-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            margin-top: 48px;
-        }
+    /* ── JOURNEY CARDS (desktop) ── */
+    .journey-cards { display: flex; flex-direction: column; gap: 24px; margin-top: 48px; }
+
+    .journey-card {
+        width: 100%; max-width: 1120px;
+        min-height: 240px;
+        border-radius: 12px;
+        border: 1px solid #e5e5e5;
+        background: #ffffff;
+        display: flex; align-items: stretch;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    .journey-card:hover { transform: translateY(-4px); }
+
+    .journey-card-content {
+        flex: 1; padding: 40px 48px;
+        display: flex; flex-direction: column;
+        justify-content: center;
+    }
+
+    .journey-card-step {
+        font-size: 12px; font-weight: 600;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        color: #006DFF; margin-bottom: 12px;
+    }
+
+    .journey-card-title { font-size: 28px; font-weight: 700; color: #1a1a1a; margin-bottom: 16px; line-height: 1.2; }
+    .journey-card-description { font-size: 16px; color: #555; line-height: 1.7; max-width: 520px; }
+
+    .journey-card-image {
+        width: 420px; flex-shrink: 0;
+        background: #F7F7F7;
+        display: flex; align-items: center; justify-content: center;
+        overflow: hidden;
+    }
+    .journey-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ── STATS ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin: 48px 0; }
+    .stat-item { text-align: center; background: #F7F7F7; border-radius: 12px; padding: 40px 24px; }
+    .stat-item h3 { font-size: 40px; font-weight: 700; margin-bottom: 12px; color: #006DFF; }
+    .stat-item p { font-size: 16px; color: #666; line-height: 1.5; }
+
+    /* ── CAROUSEL ── */
+    .carousel-wrapper { margin-top: 48px; position: relative; }
+    .carousel-track-container { overflow: hidden; border-radius: 12px; border: 1px solid #e5e5e5; }
+    .carousel-track { display: flex; transition: transform 0.4s ease; }
+    .carousel-slide { min-width: 100%; background: #F7F7F7; }
+    .carousel-slide-image {
+        width: 100%; height: 630px;
+        display: flex; align-items: center; justify-content: center;
+        background: #F0F0F0; overflow: hidden;
+    }
+    .carousel-slide-image img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .carousel-caption { padding: 20px 32px; background: #ffffff; border-top: 1px solid #e5e5e5; }
+    .carousel-caption h3 { font-size: 18px; font-weight: 600; color: #1a1a1a; }
+    .carousel-controls { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
+    .carousel-btn {
+        width: 44px; height: 44px; border-radius: 50%;
+        border: 1px solid #e5e5e5; background: #ffffff;
+        cursor: pointer; display: flex; align-items: center;
+        justify-content: center; transition: all 0.2s; flex-shrink: 0;
+    }
+    .carousel-btn:hover { background: #006DFF; border-color: #006DFF; }
+    .carousel-btn:hover svg path { stroke: #ffffff; }
+    .carousel-btn svg { width: 18px; height: 18px; }
+    .carousel-dots { display: flex; gap: 8px; align-items: center; }
+    .carousel-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: #e5e5e5; cursor: pointer; transition: all 0.2s; border: none; padding: 0;
+    }
+    .carousel-dot.active { background: #006DFF; width: 24px; border-radius: 4px; }
+    .carousel-counter { font-size: 13px; color: #999; margin-left: auto; }
+
+    /* Pagination lines -- mobile only */
+    .carousel-pagination {
+        display: none;
+        align-items: center;
+        gap: 6px;
+        margin-top: 10px;
+    }
+
+    .carousel-pagination-line {
+        height: 2px; flex: 1; max-width: 36px;
+        background: #e5e5e5; border-radius: 2px;
+        transition: background 0.2s;
+    }
+
+    .carousel-pagination-line.active { background: #006DFF; }
+
+    .carousel-pagination-counter {
+        font-size: 12px; color: #999;
+        margin-left: auto; white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* ── LEARNING ── */
+    .learning-box {
+        background: rgba(0,0,0,0.85); color: white;
+        padding: 56px 48px; border-radius: 12px; margin: 48px 0 32px;
+    }
+    .learning-box h3 { font-size: 28px; font-weight: 700; margin-bottom: 24px; line-height: 1.3; }
+    .learning-box p { font-size: 18px; line-height: 1.7; margin-bottom: 20px; opacity: 0.9; }
+    .learning-box p:last-child { margin-bottom: 0; }
+
+    .reflection-box {
+        border-left: 3px solid #006DFF;
+        padding: 24px 32px; background: #FAFAFA; border-radius: 0 12px 12px 0;
+    }
+    .reflection-box p { font-size: 17px; line-height: 1.7; color: #444; margin: 0; }
+
+    /* ── FOOTER ── */
+    footer { padding: 40px 0; text-align: center; color: #999; font-size: 13px; border-top: 1px solid #e5e5e5; }
+
+    /* ── BACK TO TOP ── */
+    .back-to-top {
+        position: fixed;
+        bottom: 40px; right: 40px;
+        width: 100px; height: 100px;
+        background: #f5f5f5; border-radius: 16px;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        gap: 6px; cursor: pointer; border: none;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 200;
+    }
+    .back-to-top.visible { opacity: 1; pointer-events: all; }
+    .back-to-top:hover { transform: translateY(-4px); background: #ebebeb; }
+    .back-to-top svg { width: 28px; height: 28px; }
+    .back-to-top span { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; color: #333; letter-spacing: 0.05em; }
+
+    /* ── 1200px ── */
+    @media (max-width: 1200px) {
+        .journey-card-image { width: 320px; }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+
+        .nav-container { padding: 0 20px; }
+        .nav-links { display: none; }
+        .hamburger { display: flex; }
+        .container { padding: 0 20px; }
+
+        .hero { padding: 40px 0 32px; }
+        .hero h1 { font-size: 28px; line-height: 1.25; }
+        .hero .meta { font-size: 13px; margin-bottom: 20px; }
+        .hero .intro { font-size: 16px; }
+        .back-link { font-size: 13px; margin-bottom: 24px; }
+
+        section { padding: 40px 0; }
+        .section-title { font-size: 24px; margin-bottom: 20px; }
+        .section-content p { font-size: 15px; }
+        .section-content ul li { font-size: 15px; }
+
+        .image-full { margin: 28px 0; }
+
+        /* Journey cards -- stack vertically */
+        .journey-cards { gap: 16px; margin-top: 28px; }
 
         .journey-card {
-            width: 100%;
-            max-width: 1120px;
-            min-height: 240px;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-            background: #ffffff;
-            display: flex;
-            align-items: stretch;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .journey-card:hover { transform: translateY(-4px); }
-
-        .journey-card-content {
-            flex: 1;
-            padding: 40px 48px;
-            display: flex;
             flex-direction: column;
-            justify-content: center;
-        }
-
-        .journey-card-step {
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #006DFF;
-            margin-bottom: 12px;
-        }
-
-        .journey-card-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 16px;
-            line-height: 1.2;
-        }
-
-        .journey-card-description {
-            font-size: 16px;
-            color: #555;
-            line-height: 1.7;
-            max-width: 520px;
+            min-height: unset;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         .journey-card-image {
-            width: 420px;
-            flex-shrink: 0;
-            background: #F7F7F7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            width: 100%; height: 200px;
+            order: -1;
+            border-radius: 0; flex-shrink: 0;
         }
 
-        .journey-card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+        .journey-card-content { padding: 16px 20px 20px; border-radius: 0; }
+        .journey-card-step { font-size: 11px; margin-bottom: 6px; }
+        .journey-card-title { font-size: 20px; margin-bottom: 10px; }
+        .journey-card-description { font-size: 14px; max-width: 100%; }
 
         /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-            margin: 48px 0;
-        }
-
-        .stat-item {
-            text-align: center;
-            background: #F7F7F7;
-            border-radius: 12px;
-            padding: 40px 24px;
-        }
-
-        .stat-item h3 {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #006DFF;
-        }
-
-        .stat-item p {
-            font-size: 16px;
-            color: #666;
-            line-height: 1.5;
-        }
+        .stats-grid { grid-template-columns: 1fr; gap: 12px; margin: 28px 0; }
+        .stat-item { padding: 24px 20px; }
+        .stat-item h3 { font-size: 32px; }
+        .stat-item p { font-size: 14px; }
 
         /* Carousel */
-        .carousel-wrapper {
-            margin-top: 48px;
-            position: relative;
-        }
+        .carousel-wrapper { margin-top: 28px; }
+        .carousel-slide-image { height: 280px; }
+        .carousel-caption { padding: 12px 16px; }
+        .carousel-caption h3 { font-size: 14px; }
+        .carousel-controls { gap: 10px; margin-top: 14px; }
+        .carousel-btn { display: none; }
+        .carousel-dots { display: none; }
+        .carousel-counter { display: none; }
+        .carousel-pagination { display: flex; }
 
-        .carousel-track-container {
-            overflow: hidden;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-        }
+        /* Learning */
+        .learning-box { padding: 28px 20px; margin: 28px 0 20px; }
+        .learning-box h3 { font-size: 20px; margin-bottom: 16px; }
+        .learning-box p { font-size: 15px; }
+        .reflection-box { padding: 16px 20px; }
+        .reflection-box p { font-size: 14px; }
 
-        .carousel-track {
-            display: flex;
-            transition: transform 0.4s ease;
-        }
-
-        .carousel-slide {
-            min-width: 100%;
-            background: #F7F7F7;
-        }
-
-        .carousel-slide-image {
-            width: 100%;
-            height: 630px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #F0F0F0;
-            overflow: hidden;
-        }
-
-        .carousel-slide-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-
-        .carousel-caption {
-            padding: 20px 32px;
-            background: #ffffff;
-            border-top: 1px solid #e5e5e5;
-        }
-
-        .carousel-caption h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-
-        .carousel-controls {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        .carousel-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1px solid #e5e5e5;
-            background: #ffffff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .carousel-btn:hover {
-            background: #006DFF;
-            border-color: #006DFF;
-        }
-
-        .carousel-btn:hover svg path { stroke: #ffffff; }
-        .carousel-btn svg { width: 18px; height: 18px; }
-
-        .carousel-dots {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .carousel-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #e5e5e5;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            padding: 0;
-        }
-
-        .carousel-dot.active {
-            background: #006DFF;
-            width: 24px;
-            border-radius: 4px;
-        }
-
-        .carousel-counter {
-            font-size: 13px;
-            color: #999;
-            margin-left: auto;
-        }
-
-        /* Key Learning */
-        .learning-box {
-            background: rgba(0, 0, 0, 0.85);
-            color: white;
-            padding: 56px 48px;
-            border-radius: 12px;
-            margin: 48px 0 32px;
-        }
-
-        .learning-box h3 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            line-height: 1.3;
-        }
-
-        .learning-box p {
-            font-size: 18px;
-            line-height: 1.7;
-            margin-bottom: 20px;
-            opacity: 0.9;
-        }
-
-        .learning-box p:last-child { margin-bottom: 0; }
-
-        .reflection-box {
-            border-left: 3px solid #006DFF;
-            padding: 24px 32px;
-            background: #FAFAFA;
-            border-radius: 0 12px 12px 0;
-        }
-
-        .reflection-box p {
-            font-size: 17px;
-            line-height: 1.7;
-            color: #444;
-            margin: 0;
-        }
-
-        /* Footer */
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            color: #999;
-            font-size: 13px;
-            border-top: 1px solid #e5e5e5;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .journey-card-image { width: 320px; }
-        }
-
-        @media (max-width: 768px) {
-            .container, .nav-container { padding: 0 24px; }
-            .hero h1 { font-size: 40px; }
-            .section-title { font-size: 32px; }
-            .journey-card { flex-direction: column; }
-            .journey-card-image { width: 100%; height: 200px; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .carousel-slide-image { height: 360px; }
-        }
-    
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            width: 100px;
-            height: 100px;
-            background: #f5f5f5;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-            border: none;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 200;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .back-to-top:hover {
-            transform: translateY(-4px);
-            background: #ebebeb;
-        }
-
-        .back-to-top svg {
-            width: 28px;
-            height: 28px;
-        }
-
-        .back-to-top span {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            font-weight: 600;
-            color: #333;
-            letter-spacing: 0.05em;
-        }
-        </style>
+        /* Back to top */
+        .back-to-top { width: 52px; height: 52px; bottom: 24px; right: 20px; border-radius: 12px; }
+        .back-to-top svg { width: 20px; height: 20px; }
+        .back-to-top span { display: none; }
+    }
+</style>
 </head>
 <body>
-<!-- Navigation -->
+
 <nav>
-<div class="nav-container">
-<a class="logo" href="index.html">
-<img alt="Cătălin Şofan" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAjACkDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAgHBgP/xAArEAAABAQEBQUBAQAAAAAAAAAAAQIDBAUGBwgRGFUTIUGU0xIxN3WzUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9MONlKVuRQ8ZPJ5MJ1DxLEyXCJTBvNIQaEtNLIzJTajzzWfX+chpulS3m81T3LHhDA38TTT7178IcZlhxspStyKHjJ5PJhOoeJYmS4RKYN5pCDQlppZGZKbUeeaz6/zkA03Spbzeap7ljwhpUt5vNU9yx4Q0qW83mqe5Y8IaVLebzVPcseEBxl7cP9G0RbCb1PKpnP3oyC4PDREvsqbP1vttnmSWkn7LPqXPITMKZvbh/o2iLYTep5VM5+9GQXB4aIl9lTZ+t9ts8yS0k/ZZ9S55CZgFmYG/iaafevfhDhgb+Jpp969+EOGBv4mmn3r34Q4aVLebzVPcseEA0qW83mqe5Y8IaVLebzVPcseENKlvN5qnuWPCGlS3m81T3LHhAcZe3D/RtEWwm9TyqZz96MguDw0RL7Kmz9b7bZ5klpJ+yz6lzyEzC5cRcqh5Dhgmcjg1urhpdCQEIyp0yNakNxDCEmoyIiM8iLPIi/wQ0AAAAAAAAAAA/9k="/>
-<span class="logo-name">Cătălin Şofan</span>
-</a>
-<ul class="nav-links">
-<li><a href="index.html#work">Work</a></li>
-<li><a href="index.html#process">Process</a></li>
-<li><a href="index.html#about">About</a></li>
-<li><a href="index.html#contact">Contact</a></li>
-</ul>
-</div>
+    <div class="nav-container">
+        <a class="logo" href="index.html">
+            <img alt="Cătălin Şofan" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAjACkDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAgHBgP/xAArEAAABAQEBQUBAQAAAAAAAAAAAQIDBAUGBwgRGFUTIUGU0xIxN3WzUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9MONlKVuRQ8ZPJ5MJ1DxLEyXCJTBvNIQaEtNLIzJTajzzWfX+chpulS3m81T3LHhDA38TTT7178IcZlhxspStyKHjJ5PJhOoeJYmS4RKYN5pCDQlppZGZKbUeeaz6/zkA03Spbzeap7ljwhpUt5vNU9yx4Q0qW83mqe5Y8IaVLebzVPcseEBxl7cP9G0RbCb1PKpnP3oyC4PDREvsqbP1vttnmSWkn7LPqXPITMKZvbh/o2iLYTep5VM5+9GQXB4aIl9lTZ+t9ts8yS0k/ZZ9S55CZgFmYG/iaafevfhDhgb+Jpp969+EOGBv4mmn3r34Q4aVLebzVPcseEA0qW83mqe5Y8IaVLebzVPcseENKlvN5qnuWPCGlS3m81T3LHhAcZe3D/RtEWwm9TyqZz96MguDw0RL7Kmz9b7bZ5klpJ+yz6lzyEzC5cRcqh5Dhgmcjg1urhpdCQEIyp0yNakNxDCEmoyIiM8iLPIi/wQ0AAAAAAAAAAA/9k="/>
+            <span class="logo-name">Cătălin Şofan</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="index.html#process">Process</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
 </nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+        <a class="logo" href="index.html" onclick="closeMobileNav()">
+            <img alt="Cătălin Şofan" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAjACkDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAgHBgP/xAArEAAABAQEBQUBAQAAAAAAAAAAAQIDBAUGBwgRGFUTIUGU0xIxN3WzUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9MONlKVuRQ8ZPJ5MJ1DxLEyXCJTBvNIQaEtNLIzJTajzzWfX+chpulS3m81T3LHhDA38TTT7178IcZlhxspStyKHjJ5PJhOoeJYmS4RKYN5pCDQlppZGZKbUeeaz6/zkA03Spbzeap7ljwhpUt5vNU9yx4Q0qW83mqe5Y8IaVLebzVPcseEBxl7cP9G0RbCb1PKpnP3oyC4PDREvsqbP1vttnmSWkn7LPqXPITMKZvbh/o2iLYTep5VM5+9GQXB4aIl9lTZ+t9ts8yS0k/ZZ9S55CZgFmYG/iaafevfhDhgb+Jpp969+EOGBv4mmn3r34Q4aVLebzVPcseEA0qW83mqe5Y8IaVLebzVPcseENKlvN5qnuWPCGlS3m81T3LHhAcZe3D/RtEWwm9TyqZz96MguDw0RL7Kmz9b7bZ5klpJ+yz6lzyEzC5cRcqh5Dhgmcjg1urhpdCQEIyp0yNakNxDCEmoyIiM8iLPIi/wQ0AAAAAAAAAAA/9k="/>
+            <span class="logo-name">Cătălin Şofan</span>
+        </a>
+        <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6l12 12" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+    </div>
+    <div class="mobile-nav-body">
+        <div class="mobile-nav-section-label">Work</div>
+        <a href="gravityzone_simplified.html" class="mobile-nav-link active" onclick="closeMobileNav()">Enterprise Security Platform</a>
+        <a href="design_system_case_study.html" class="mobile-nav-link" onclick="closeMobileNav()">Company-Wide Design System</a>
+        <a href="myco_case_study.html" class="mobile-nav-link" onclick="closeMobileNav()">Healthcare Collaboration</a>
+        <a href="authentication_innovation.html" class="mobile-nav-link" onclick="closeMobileNav()">Authentication Innovation</a>
+        <div class="mobile-nav-section-label">Process</div>
+        <a href="process_section.html" class="mobile-nav-link" onclick="closeMobileNav()">5-Step Design Framework</a>
+    </div>
+    <div class="mobile-nav-footer">
+        <a href="mailto:catalin.sofan@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/catalinsofan/" target="_blank">LinkedIn</a>
+    </div>
+</div>
+
 <!-- Hero -->
 <section class="hero">
-<div class="container">
-<a class="back-link" href="index.html#work">← Back to Work</a>
-<h1>Enterprise Security Platform</h1>
-<p class="meta">Role: Lead UX Designer  ·  Timeline: 2023  ·  Bitdefender, Cluj-Napoca</p>
-<p class="intro">Redesigning complex enterprise security management for SMBs. A streamlined platform that reduced onboarding from hours to minutes, without sacrificing the power of GravityZone for users who needed it.</p>
-</div>
+    <div class="container">
+        <a class="back-link" href="index.html#work">← Back to Work</a>
+        <h1>Enterprise Security Platform</h1>
+        <p class="meta">Role: Lead UX Designer  ·  Timeline: 2023  ·  Bitdefender, Cluj-Napoca</p>
+        <p class="intro">Redesigning complex enterprise security management for SMBs. A streamlined platform that reduced onboarding from hours to minutes, without sacrificing the power of GravityZone for users who needed it.</p>
+    </div>
 </section>
+
 <!-- Context & Role -->
 <section style="background: #FAFAFA;">
-<div class="container">
-<div class="section-label">CONTEXT &amp; ROLE</div>
-<h2 class="section-title">The Problem and My Part in Solving It</h2>
-<div class="section-content">
-<p>GravityZone was powerful, but overwhelming. SMBs represented 70% of the user base, yet the platform was built for enterprise complexity. Onboarding a single company took hours. The interface assumed expertise that most SMB admins simply didn't have.</p>
-<p>I led the UX design effort as part of a small, focused team: an Engineering Director, a Product Manager, and myself. We spent 12+ hours across debates and working sessions aligning on what the MVP should and shouldn't include. My responsibilities spanned the full project:</p>
-<ul>
-<li>UX strategy and user research across SMB and enterprise segments</li>
-<li>User flows, wireframes, and final designs for the simplified experience</li>
-<li>Weekly facilitation between Engineering and Product to keep decisions moving</li>
-<li>Close collaboration with Engineering to maximize existing code and design assets</li>
-<li>Design of the template system enabling 2-3 click repeat onboarding</li>
-</ul>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">CONTEXT &amp; ROLE</div>
+        <h2 class="section-title">The Problem and My Part in Solving It</h2>
+        <div class="section-content">
+            <p>GravityZone was powerful, but overwhelming. SMBs represented 70% of the user base, yet the platform was built for enterprise complexity. Onboarding a single company took hours. The interface assumed expertise that most SMB admins simply didn't have.</p>
+            <p>I led the UX design effort as part of a small, focused team: an Engineering Director, a Product Manager, and myself. We spent 12+ hours across debates and working sessions aligning on what the MVP should and shouldn't include. My responsibilities spanned the full project:</p>
+            <ul>
+                <li>UX strategy and user research across SMB and enterprise segments</li>
+                <li>User flows, wireframes, and final designs for the simplified experience</li>
+                <li>Weekly facilitation between Engineering and Product to keep decisions moving</li>
+                <li>Close collaboration with Engineering to maximize existing code and design assets</li>
+                <li>Design of the template system enabling 2-3 click repeat onboarding</li>
+            </ul>
+        </div>
+    </div>
 </section>
+
 <!-- The Before -->
 <section>
-<div class="container">
-<div class="section-label">THE BEFORE</div>
-<h2 class="section-title">What We Were Starting From</h2>
-<div class="section-content">
-<p>The full GravityZone console was feature-complete and trusted by enterprise teams. For an SMB admin managing a handful of companies, it was a different story: deep navigation hierarchies, configuration options without context, and an onboarding process that required expert knowledge just to get started.</p>
-<p>This is what users saw when they landed in GravityZone. Powerful, but a lot to take in on day one.</p>
-</div>
-<div class="image-full">
-<img alt="Full GravityZone console home view" src="full-gravityzone-console-home-view.png"/>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">THE BEFORE</div>
+        <h2 class="section-title">What We Were Starting From</h2>
+        <div class="section-content">
+            <p>The full GravityZone console was feature-complete and trusted by enterprise teams. For an SMB admin managing a handful of companies, it was a different story: deep navigation hierarchies, configuration options without context, and an onboarding process that required expert knowledge just to get started.</p>
+            <p>This is what users saw when they landed in GravityZone. Powerful, but a lot to take in on day one.</p>
+        </div>
+        <div class="image-full">
+            <img alt="Full GravityZone console home view" src="full-gravityzone-console-home-view.png"/>
+        </div>
+    </div>
 </section>
+
 <!-- The Solution -->
 <section style="background: #FAFAFA;">
-<div class="container">
-<div class="section-label">THE SOLUTION</div>
-<h2 class="section-title">A Dual-Mode Platform</h2>
-<div class="section-content">
-<p>The key decision was not to build a separate product but to create a different entry point into the same platform. Simplified mode surfaced only what SMB admins needed day-to-day. For tech-savvy users and admins who needed more, a single toggle switched them into the full Advanced mode.</p>
-<p>This gave users confidence that nothing was removed, just reorganized. Below is the simplified home view: a focused dashboard showing exactly what matters, with a clear onboarding prompt for new companies.</p>
-</div>
-<div class="image-full">
-<img alt="GravityZone Simplified home dashboard" src="gravityzone-simplified-home-dashboard.png"/>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">THE SOLUTION</div>
+        <h2 class="section-title">A Dual-Mode Platform</h2>
+        <div class="section-content">
+            <p>The key decision was not to build a separate product but to create a different entry point into the same platform. Simplified mode surfaced only what SMB admins needed day-to-day. For tech-savvy users and admins who needed more, a single toggle switched them into the full Advanced mode.</p>
+            <p>This gave users confidence that nothing was removed, just reorganized. Below is the simplified home view: a focused dashboard showing exactly what matters, with a clear onboarding prompt for new companies.</p>
+        </div>
+        <div class="image-full">
+            <img alt="GravityZone Simplified home dashboard" src="gravityzone-simplified-home-dashboard.png"/>
+        </div>
+    </div>
 </section>
-<!-- User Journey + Template System (combined) -->
+
+<!-- User Journey -->
 <section>
-<div class="container">
-<div class="section-label">USER JOURNEY</div>
-<h2 class="section-title">From First Click to Repeat Onboarding</h2>
-<div class="section-content">
-<p>The original onboarding required navigating multiple screens, setting dozens of configuration options, and understanding Bitdefender licensing before a single company was live. The redesign collapsed this into a 4-step wizard: Create company, Licensing, Policy, Finalize.</p>
-<p>The template system took it further. Every completed configuration can be saved as a template, turning the next onboarding into 2-3 clicks. Below is the full journey, from the first "Quick Add Company" through the wizard steps, edge cases, and the template management experience.</p>
-</div>
-<div class="carousel-wrapper">
-<div class="carousel-track-container">
-<div class="carousel-track" id="carouselTrack">
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<img alt="Quick Add Company" src="quick-add-company.png"/>
-</div>
-<div class="carousel-caption">
-<h3>Entry Point - Quick Add Company</h3>
-</div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<img alt="Step 1: Create company" src="step-1-create-company.png"/>
-</div>
-<div class="carousel-caption">
-<h3>Step 1 of 4 - Create Company</h3>
-</div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<img alt="Step 2: Licensing" src="step-2-licensing.png"/>
-</div>
-<div class="carousel-caption">
-<h3>Step 2 of 4 - Licensing</h3>
-</div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<img alt="Step 3: Policy" src="step-3-policy.png"/>
-</div>
-<div class="carousel-caption">
-<h3>Step 3 of 4 - Policy</h3>
-</div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<img alt="Step 4: Finalize" src="step-4-finalize.png"/>
-</div>
-<div class="carousel-caption">
-<h3>Step 4 of 4 - Finalize</h3>
-</div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<img alt="Exit confirmation dialog" src="exit-confirmation-dialog.png"/>
-</div>
-<div class="carousel-caption">
-<h3>Edge Case - Exiting Mid-Flow</h3>
-</div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<img alt="Deployment templates page" src="deployment-templates-page.png"/>
-</div>
-<div class="carousel-caption">
-<h3>Template System - Manage Templates Page</h3>
-</div>
-</div><div class="carousel-slide">
-<div class="carousel-slide-image">
-<img alt="Apply deployment template" src="apply-deployment-template.png"/>
-</div>
-<div class="carousel-caption">
-<h3>Template System - Apply Deployment Template</h3>
-</div>
-</div>
-</div>
-</div>
-<div class="carousel-controls">
-<button aria-label="Previous" class="carousel-btn" id="prevBtn">
-<svg fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M15 18L9 12L15 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-<button aria-label="Next" class="carousel-btn" id="nextBtn">
-<svg fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M9 18L15 12L9 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-<div class="carousel-dots" id="carouselDots"></div>
-<span class="carousel-counter" id="carouselCounter">1 / 8</span>
-</div>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">USER JOURNEY</div>
+        <h2 class="section-title">From First Click to Repeat Onboarding</h2>
+        <div class="section-content">
+            <p>The original onboarding required navigating multiple screens, setting dozens of configuration options, and understanding Bitdefender licensing before a single company was live. The redesign collapsed this into a 4-step wizard: Create company, Licensing, Policy, Finalize.</p>
+            <p>The template system took it further. Every completed configuration can be saved as a template, turning the next onboarding into 2-3 clicks. Below is the full journey, from the first "Quick Add Company" through the wizard steps, edge cases, and the template management experience.</p>
+        </div>
+        <div class="carousel-wrapper">
+            <div class="carousel-track-container">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Quick Add Company" src="quick-add-company.png"/></div>
+                        <div class="carousel-caption"><h3>Entry Point - Quick Add Company</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Step 1: Create company" src="step-1-create-company.png"/></div>
+                        <div class="carousel-caption"><h3>Step 1 of 4 - Create Company</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Step 2: Licensing" src="step-2-licensing.png"/></div>
+                        <div class="carousel-caption"><h3>Step 2 of 4 - Licensing</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Step 3: Policy" src="step-3-policy.png"/></div>
+                        <div class="carousel-caption"><h3>Step 3 of 4 - Policy</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Step 4: Finalize" src="step-4-finalize.png"/></div>
+                        <div class="carousel-caption"><h3>Step 4 of 4 - Finalize</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Exit confirmation dialog" src="exit-confirmation-dialog.png"/></div>
+                        <div class="carousel-caption"><h3>Edge Case - Exiting Mid-Flow</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Deployment templates page" src="deployment-templates-page.png"/></div>
+                        <div class="carousel-caption"><h3>Template System - Manage Templates Page</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Apply deployment template" src="apply-deployment-template.png"/></div>
+                        <div class="carousel-caption"><h3>Template System - Apply Template</h3></div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button aria-label="Previous" class="carousel-btn" id="prevBtn">
+                    <svg fill="none" viewBox="0 0 24 24"><path d="M15 18L9 12L15 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                </button>
+                <button aria-label="Next" class="carousel-btn" id="nextBtn">
+                    <svg fill="none" viewBox="0 0 24 24"><path d="M9 18L15 12L9 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                </button>
+                <div class="carousel-dots" id="carouselDots"></div>
+                <span class="carousel-counter" id="carouselCounter">1 / 8</span>
+            </div>
+            <div class="carousel-pagination" id="carouselLines"></div>
+        </div>
+    </div>
 </section>
+
 <!-- Outcomes -->
 <section>
-<div class="container">
-<div class="section-label">RESULTS</div>
-<h2 class="section-title">Impact &amp; Outcomes</h2>
-<div class="stats-grid">
-<div class="stat-item">
-<h3>70%</h3>
-<p>Of the user base directly served by the simplified experience</p>
-</div>
-<div class="stat-item">
-<h3>2-3</h3>
-<p>Clicks to onboard a repeat company using saved templates</p>
-</div>
-<div class="stat-item">
-<h3>Hours → Minutes</h3>
-<p>Onboarding time reduction for new companies</p>
-</div>
-</div>
-<div class="section-content" style="margin-top: 16px;">
-<p>The platform launched as a dual-mode experience, serving SMB and enterprise users from the same codebase. By working closely with Engineering from day one, we maximized existing components and avoided rebuilding what was already solid, keeping the development timeline lean.</p>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">RESULTS</div>
+        <h2 class="section-title">Impact &amp; Outcomes</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>70%</h3>
+                <p>Of the user base directly served by the simplified experience</p>
+            </div>
+            <div class="stat-item">
+                <h3>2-3</h3>
+                <p>Clicks to onboard a repeat company using saved templates</p>
+            </div>
+            <div class="stat-item">
+                <h3>Hours → Minutes</h3>
+                <p>Onboarding time reduction for new companies</p>
+            </div>
+        </div>
+        <div class="section-content" style="margin-top: 16px;">
+            <p>The platform launched as a dual-mode experience, serving SMB and enterprise users from the same codebase. By working closely with Engineering from day one, we maximized existing components and avoided rebuilding what was already solid, keeping the development timeline lean.</p>
+        </div>
+    </div>
 </section>
+
 <!-- Key Learnings -->
 <section style="background: #FAFAFA;">
-<div class="container">
-<div class="section-label">KEY LEARNINGS</div>
-<h2 class="section-title">What I Learned</h2>
-<div class="learning-box">
-<h3>Simplification is not subtraction</h3>
-<p>The instinct when simplifying is to remove things. The harder and more correct move is to reorganize them. Everything that existed in GravityZone still existed in Simplified mode, just surfaced differently. The mode toggle wasn't a compromise, it was the design.</p>
-<p>Progressive disclosure and smart defaults did most of the heavy lifting. The platform felt simple because it made good assumptions upfront, not because it offered less.</p>
-</div>
-<div class="reflection-box">
-<p><strong>What I'd do differently:</strong> I'd involve SMB users earlier in the process, before the wireframe stage. We made good decisions in the debates, but some of those 12+ hours could have been shorter with more direct user input to anchor the discussion. Assumptions held up, but they were still assumptions.</p>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">KEY LEARNINGS</div>
+        <h2 class="section-title">What I Learned</h2>
+        <div class="learning-box">
+            <h3>Simplification is not subtraction</h3>
+            <p>The instinct when simplifying is to remove things. The harder and more correct move is to reorganize them. Everything that existed in GravityZone still existed in Simplified mode, just surfaced differently. The mode toggle wasn't a compromise, it was the design.</p>
+            <p>Progressive disclosure and smart defaults did most of the heavy lifting. The platform felt simple because it made good assumptions upfront, not because it offered less.</p>
+        </div>
+        <div class="reflection-box">
+            <p><strong>What I'd do differently:</strong> I'd involve SMB users earlier in the process, before the wireframe stage. We made good decisions in the debates, but some of those 12+ hours could have been shorter with more direct user input to anchor the discussion. Assumptions held up, but they were still assumptions.</p>
+        </div>
+    </div>
 </section>
+
 <footer>
-<div class="container">
-<p>© 2026 Cătălin Şofan. Based in Cluj-Napoca, Romania.</p>
-</div>
+    <div class="container">
+        <p>© 2026 Cătălin Şofan. Based in Cluj-Napoca, Romania.</p>
+    </div>
 </footer>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 19V5M12 5L6 11M12 5L18 11" stroke="#333333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>TOP</span>
+</button>
+
 <script>
-        const track = document.getElementById('carouselTrack');
-        const slides = track.querySelectorAll('.carousel-slide');
-        const dotsContainer = document.getElementById('carouselDots');
-        const counter = document.getElementById('carouselCounter');
-        const total = slides.length;
-        let current = 0;
+    // Hamburger
+    const hamburgerBtn   = document.getElementById('hamburgerBtn');
+    const mobileNav      = document.getElementById('mobileNav');
+    const mobileNavClose = document.getElementById('mobileNavClose');
 
-        slides.forEach((_, i) => {
-            const dot = document.createElement('button');
-            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-            dot.addEventListener('click', () => goTo(i));
-            dotsContainer.appendChild(dot);
-        });
+    hamburgerBtn.addEventListener('click', () => {
+        mobileNav.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    });
 
-        function goTo(index) {
-            current = (index + total) % total;
-            track.style.transform = `translateX(-${current * 100}%)`;
-            dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
-                d.classList.toggle('active', i === current);
-            });
-            counter.textContent = `${current + 1} / ${total}`;
-        }
+    mobileNavClose.addEventListener('click', closeMobileNav);
 
-        document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
-        document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+    function closeMobileNav() {
+        mobileNav.classList.remove('open');
+        document.body.style.overflow = '';
+    }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') goTo(current - 1);
-            if (e.key === 'ArrowRight') goTo(current + 1);
-        });
-    
-        document.addEventListener('DOMContentLoaded', () => {
-            const btn = document.getElementById('backToTop');
-            window.addEventListener('scroll', () => {
-                const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-                btn.classList.toggle('visible', scrolled > 0.5);
-            });
-        });
-    </script>
+    // Carousel
+    const track          = document.getElementById('carouselTrack');
+    const slides         = track.querySelectorAll('.carousel-slide');
+    const dotsContainer  = document.getElementById('carouselDots');
+    const counter        = document.getElementById('carouselCounter');
+    const linesContainer = document.getElementById('carouselLines');
+    const total          = slides.length;
+    let current          = 0;
 
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 19V5M12 5L6 11M12 5L18 11" stroke="#333333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>TOP</span>
-    </button>
+    // Build dots
+    slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(dot);
+    });
+
+    // Build pagination lines + counter
+    slides.forEach((_, i) => {
+        const line = document.createElement('div');
+        line.className = 'carousel-pagination-line' + (i === 0 ? ' active' : '');
+        linesContainer.appendChild(line);
+    });
+    const mobileCounter = document.createElement('span');
+    mobileCounter.className = 'carousel-pagination-counter';
+    mobileCounter.textContent = `1 / ${total}`;
+    linesContainer.appendChild(mobileCounter);
+
+    function goTo(index) {
+        current = (index + total) % total;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+        linesContainer.querySelectorAll('.carousel-pagination-line').forEach((l, i) => l.classList.toggle('active', i === current));
+        counter.textContent = `${current + 1} / ${total}`;
+        mobileCounter.textContent = `${current + 1} / ${total}`;
+    }
+
+    // Touch swipe
+    let startX = 0;
+    track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+    }, { passive: true });
+
+    document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    // Back to top
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        backToTop.classList.toggle('visible', scrolled > 0.3);
+    });
+</script>
 
 </body>
 </html>
