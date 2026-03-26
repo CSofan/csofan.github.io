@@ -1,845 +1,638 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Design System Case Study - Cătălin Şofan</title>
+<title>Company-Wide Design System - Cătălin Şofan</title>
 <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background: #ffffff;
-        }
+    body {
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        line-height: 1.6;
+        color: #1a1a1a;
+        background: #ffffff;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
 
-        /* Navigation */
-        nav {
-            padding: 24px 0;
-            border-bottom: 1px solid #e5e5e5;
-            position: sticky;
-            top: 0;
-            background: #ffffff;
-            z-index: 100;
-        }
+    /* ── NAV ── */
+    nav {
+        padding: 24px 0;
+        border-bottom: 1px solid #e5e5e5;
+        position: sticky; top: 0;
+        background: #ffffff; z-index: 300;
+    }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .nav-container {
+        max-width: 1200px; margin: 0 auto;
+        padding: 0 40px;
+        display: flex; justify-content: space-between; align-items: center;
+    }
 
-        .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
+    .logo { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo img { height: 32px; width: auto; display: block; }
+    .logo-name { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: #666; text-decoration: none; font-size: 15px; transition: color 0.2s; }
+    .nav-links a:hover { color: #1a1a1a; }
 
-        .logo img {
-            height: 32px;
-            width: auto;
-            display: block;
-        }
+    .hamburger {
+        display: none; flex-direction: column; justify-content: space-between;
+        width: 28px; height: 20px; cursor: pointer; background: none; border: none; padding: 0;
+    }
+    .hamburger span { display: block; height: 2px; background: #1a1a1a; border-radius: 2px; }
 
-        .logo-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
+    /* ── MOBILE NAV ── */
+    .mobile-nav {
+        display: none; position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%; background: #ffffff; z-index: 350; flex-direction: column;
+    }
+    .mobile-nav.open { display: flex; }
 
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-        }
+    .mobile-nav-header {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 24px 24px 20px; border-bottom: 1px solid #e5e5e5; flex-shrink: 0;
+    }
+    .mobile-nav-close { background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; }
 
-        .nav-links a {
-            color: #666;
-            text-decoration: none;
-            font-size: 15px;
-            transition: color 0.2s;
-        }
+    .mobile-nav-body {
+        flex: 1; display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        padding: 32px 24px; text-align: center;
+    }
 
-        .nav-links a:hover {
-            color: #1a1a1a;
-        }
+    .mobile-nav-section-label {
+        font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+        color: #1a1a1a; margin-bottom: 12px; margin-top: 28px;
+    }
+    .mobile-nav-section-label:first-child { margin-top: 0; }
 
-        /* Hero */
-        .hero {
-            padding: 80px 0 60px;
-        }
+    .mobile-nav-link {
+        display: block; font-size: 18px; color: #444; text-decoration: none;
+        padding: 9px 0; transition: color 0.2s; width: 100%;
+    }
+    .mobile-nav-link:hover, .mobile-nav-link.active { color: #006DFF; }
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #666;
-            text-decoration: none;
-            font-size: 15px;
-            margin-bottom: 40px;
-            transition: color 0.2s;
-        }
+    .mobile-nav-footer {
+        flex-shrink: 0; padding: 24px; border-top: 1px solid #e5e5e5; display: flex; gap: 12px;
+    }
+    .mobile-nav-footer a {
+        flex: 1; padding: 13px; text-align: center; font-size: 14px; font-weight: 600;
+        color: #1a1a1a; text-decoration: none; border: 1px solid #e5e5e5; border-radius: 8px; transition: all 0.2s;
+    }
+    .mobile-nav-footer a:hover { background: #006DFF; color: white; border-color: #006DFF; }
 
-        .back-link:hover {
-            color: #1a1a1a;
-        }
+    /* ── HERO ── */
+    .hero { padding: 80px 0 60px; }
 
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 24px;
-        }
+    .back-link {
+        display: inline-flex; align-items: center; gap: 8px;
+        color: #666; text-decoration: none; font-size: 15px; margin-bottom: 40px; transition: color 0.2s;
+    }
+    .back-link:hover { color: #1a1a1a; }
 
-        .hero .meta {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 40px;
-        }
+    .hero h1 { font-size: 56px; font-weight: 700; line-height: 1.2; margin-bottom: 24px; }
+    .hero .meta { font-size: 16px; color: #666; margin-bottom: 40px; }
+    .hero .intro { font-size: 20px; line-height: 1.6; color: #333; max-width: 1120px; }
 
-        .hero .intro {
-            font-size: 20px;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1120px;
-        }
+    section { padding: 60px 0; }
 
-        /* Sections */
-        section {
-            padding: 60px 0;
-        }
+    .section-label {
+        font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+        color: #006DFF; margin-bottom: 16px;
+    }
+    .section-title { font-size: 40px; font-weight: 700; margin-bottom: 32px; }
+    .section-content { max-width: 1120px; }
+    .section-content p { font-size: 18px; line-height: 1.7; color: #333; margin-bottom: 24px; }
+    .section-content ul { list-style: none; padding: 0; margin-bottom: 24px; }
+    .section-content ul li {
+        font-size: 18px; line-height: 1.7; color: #333;
+        padding-left: 32px; position: relative; margin-bottom: 16px;
+    }
+    .section-content ul li:before { content: "—"; position: absolute; left: 0; color: #006DFF; font-weight: 600; }
 
-        .section-label {
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #006DFF;
-            margin-bottom: 16px;
-        }
+    /* ── PROCESS CARDS (desktop) ── */
+    .process-cards { display: flex; flex-direction: column; gap: 24px; margin-top: 48px; }
 
-        .section-title {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 32px;
-        }
+    .process-card {
+        width: 100%; max-width: 1120px; min-height: 240px;
+        border-radius: 12px; border: 1px solid #e5e5e5; background: #ffffff;
+        display: flex; align-items: stretch; overflow: hidden; transition: transform 0.3s ease;
+    }
+    .process-card:hover { transform: translateY(-4px); }
 
-        .section-content {
-            max-width: 1120px;
-        }
+    .process-card-content {
+        flex: 1; padding: 40px 48px; display: flex; flex-direction: column; justify-content: center;
+    }
+    .process-card-phase {
+        font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+        color: #006DFF; margin-bottom: 12px;
+    }
+    .process-card-title { font-size: 28px; font-weight: 700; color: #1a1a1a; margin-bottom: 16px; line-height: 1.2; }
+    .process-card-description { font-size: 16px; color: #555; line-height: 1.7; max-width: 520px; }
 
-        .section-content p {
-            font-size: 18px;
-            line-height: 1.7;
-            color: #333;
-            margin-bottom: 24px;
-        }
+    .process-card-image {
+        width: 420px; flex-shrink: 0; background: #F7F7F7;
+        display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .process-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .process-card-image .placeholder-label { font-size: 13px; color: #aaa; font-weight: 500; text-align: center; padding: 24px; }
 
-        .section-content ul {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 24px;
-        }
+    /* ── CAROUSEL ── */
+    .carousel-wrapper { margin-top: 48px; position: relative; }
+    .carousel-track-container { overflow: hidden; border-radius: 12px; border: 1px solid #e5e5e5; }
+    .carousel-track { display: flex; transition: transform 0.4s ease; }
+    .carousel-slide { min-width: 100%; background: #F7F7F7; }
+    .carousel-slide-image {
+        width: 100%; height: 560px;
+        display: flex; align-items: center; justify-content: center;
+        background: #F0F0F0; overflow: hidden;
+    }
+    .carousel-slide-image img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .carousel-slide-image .placeholder-label { font-size: 16px; color: #aaa; font-weight: 500; }
+    .carousel-caption { padding: 20px 32px; background: #ffffff; border-top: 1px solid #e5e5e5; }
+    .carousel-caption h3 { font-size: 18px; font-weight: 600; color: #1a1a1a; }
+    .carousel-controls { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
+    .carousel-btn {
+        width: 44px; height: 44px; border-radius: 50%;
+        border: 1px solid #e5e5e5; background: #ffffff;
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: all 0.2s; flex-shrink: 0;
+    }
+    .carousel-btn:hover { background: #006DFF; border-color: #006DFF; }
+    .carousel-btn:hover svg path { stroke: #ffffff; }
+    .carousel-btn svg { width: 18px; height: 18px; }
+    .carousel-dots { display: flex; gap: 8px; align-items: center; }
+    .carousel-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: #e5e5e5; cursor: pointer; transition: all 0.2s; border: none; padding: 0;
+    }
+    .carousel-dot.active { background: #006DFF; width: 24px; border-radius: 4px; }
+    .carousel-counter { font-size: 13px; color: #999; margin-left: auto; }
 
-        .section-content ul li {
-            font-size: 18px;
-            line-height: 1.7;
-            color: #333;
-            padding-left: 32px;
-            position: relative;
-            margin-bottom: 16px;
-        }
+    /* Pagination lines -- mobile only */
+    .carousel-pagination {
+        display: none; align-items: center; gap: 6px; margin-top: 10px;
+    }
+    .carousel-pagination-line {
+        height: 2px; flex: 1; max-width: 28px;
+        background: #e5e5e5; border-radius: 2px; transition: background 0.2s;
+    }
+    .carousel-pagination-line.active { background: #006DFF; }
+    .carousel-pagination-counter {
+        font-size: 12px; color: #999; margin-left: auto; white-space: nowrap; flex-shrink: 0;
+    }
 
-        .section-content ul li:before {
-            content: "—";
-            position: absolute;
-            left: 0;
-            color: #006DFF;
-            font-weight: 600;
-        }
+    /* ── OUTCOMES ── */
+    .outcome-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin: 48px 0; }
+    .outcome-item { text-align: center; background: #F7F7F7; border-radius: 12px; padding: 40px 24px; }
+    .outcome-item h3 { font-size: 32px; font-weight: 700; margin-bottom: 12px; color: #1a1a1a; }
+    .outcome-item p { font-size: 16px; color: #666; line-height: 1.5; }
 
-        /* Process Cards */
-        .process-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            margin-top: 48px;
-        }
+    /* ── LEARNING ── */
+    .learning-box {
+        background: rgba(0,0,0,0.85); color: white;
+        padding: 56px 48px; border-radius: 12px; margin: 48px 0 32px;
+    }
+    .learning-box h3 { font-size: 28px; font-weight: 700; margin-bottom: 24px; line-height: 1.3; }
+    .learning-box p { font-size: 18px; line-height: 1.7; margin-bottom: 20px; opacity: 0.9; }
+    .learning-box p:last-child { margin-bottom: 0; }
+
+    .reflection-box {
+        border-left: 3px solid #006DFF; padding: 24px 32px;
+        background: #FAFAFA; border-radius: 0 12px 12px 0;
+    }
+    .reflection-box p { font-size: 17px; line-height: 1.7; color: #444; margin: 0; }
+
+    /* ── FOOTER ── */
+    footer { padding: 40px 0; text-align: center; color: #999; font-size: 13px; border-top: 1px solid #e5e5e5; }
+
+    /* ── BACK TO TOP ── */
+    .back-to-top {
+        position: fixed; bottom: 40px; right: 40px;
+        width: 100px; height: 100px; background: #f5f5f5; border-radius: 16px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 6px; cursor: pointer; border: none; opacity: 0; pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease; z-index: 200;
+    }
+    .back-to-top.visible { opacity: 1; pointer-events: all; }
+    .back-to-top:hover { transform: translateY(-4px); background: #ebebeb; }
+    .back-to-top svg { width: 28px; height: 28px; }
+    .back-to-top span { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; color: #333; letter-spacing: 0.05em; }
+
+    /* ── 1200px ── */
+    @media (max-width: 1200px) {
+        .process-card-image { width: 320px; }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+        .nav-container { padding: 0 20px; }
+        .nav-links { display: none; }
+        .hamburger { display: flex; }
+        .container { padding: 0 20px; }
+
+        .hero { padding: 40px 0 32px; }
+        .hero h1 { font-size: 28px; line-height: 1.25; }
+        .hero .meta { font-size: 13px; margin-bottom: 20px; }
+        .hero .intro { font-size: 16px; }
+        .back-link { font-size: 13px; margin-bottom: 24px; }
+
+        section { padding: 40px 0; }
+        .section-title { font-size: 24px; margin-bottom: 20px; }
+        .section-content p { font-size: 15px; }
+        .section-content ul li { font-size: 15px; }
+
+        /* Process cards -- stack vertically, image on top */
+        .process-cards { gap: 16px; margin-top: 28px; }
 
         .process-card {
-            width: 100%;
-            max-width: 1120px;
-            min-height: 240px;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-            background: #ffffff;
-            display: flex;
-            align-items: stretch;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .process-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .process-card-content {
-            flex: 1;
-            padding: 40px 48px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .process-card-phase {
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #006DFF;
-            margin-bottom: 12px;
-        }
-
-        .process-card-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 16px;
-            line-height: 1.2;
-        }
-
-        .process-card-description {
-            font-size: 16px;
-            color: #555;
-            line-height: 1.7;
-            max-width: 520px;
+            flex-direction: column; min-height: unset;
+            border-radius: 12px; overflow: hidden;
         }
 
         .process-card-image {
-            width: 420px;
-            flex-shrink: 0;
-            background: #F7F7F7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            width: 100%; height: 200px;
+            order: -1; border-radius: 0; flex-shrink: 0;
         }
 
-        .process-card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .process-card-image .placeholder-label {
-            font-size: 13px;
-            color: #aaa;
-            font-weight: 500;
-            text-align: center;
-            padding: 24px;
-        }
+        .process-card-content { padding: 16px 20px 20px; border-radius: 0; }
+        .process-card-phase { font-size: 11px; margin-bottom: 6px; }
+        .process-card-title { font-size: 20px; margin-bottom: 10px; }
+        .process-card-description { font-size: 14px; max-width: 100%; }
 
         /* Carousel */
-        .carousel-wrapper {
-            margin-top: 48px;
-            position: relative;
-        }
-
-        .carousel-track-container {
-            overflow: hidden;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-        }
-
-        .carousel-track {
-            display: flex;
-            transition: transform 0.4s ease;
-        }
-
-        .carousel-slide {
-            min-width: 100%;
-            background: #F7F7F7;
-        }
-
-        .carousel-slide-image {
-            width: 100%;
-            height: 560px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #F0F0F0;
-            overflow: hidden;
-        }
-
-        .carousel-slide-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-
-        .carousel-slide-image .placeholder-label {
-            font-size: 16px;
-            color: #aaa;
-            font-weight: 500;
-        }
-
-        .carousel-caption {
-            padding: 20px 32px;
-            background: #ffffff;
-            border-top: 1px solid #e5e5e5;
-        }
-
-        .carousel-caption h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-
-        .carousel-controls {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        .carousel-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1px solid #e5e5e5;
-            background: #ffffff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .carousel-btn:hover {
-            background: #006DFF;
-            border-color: #006DFF;
-        }
-
-        .carousel-btn:hover svg path {
-            stroke: #ffffff;
-        }
-
-        .carousel-btn svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .carousel-dots {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .carousel-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #e5e5e5;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            padding: 0;
-        }
-
-        .carousel-dot.active {
-            background: #006DFF;
-            width: 24px;
-            border-radius: 4px;
-        }
-
-        .carousel-counter {
-            font-size: 13px;
-            color: #999;
-            margin-left: auto;
-        }
+        .carousel-wrapper { margin-top: 28px; }
+        .carousel-slide-image { height: 280px; }
+        .carousel-caption { padding: 12px 16px; }
+        .carousel-caption h3 { font-size: 14px; }
+        .carousel-controls { gap: 10px; margin-top: 14px; }
+        .carousel-btn { display: none; }
+        .carousel-dots { display: none; }
+        .carousel-counter { display: none; }
+        .carousel-pagination { display: flex; }
 
         /* Outcomes */
-        .outcome-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-            margin: 48px 0;
-        }
+        .outcome-grid { grid-template-columns: 1fr; gap: 12px; margin: 28px 0; }
+        .outcome-item { padding: 24px 20px; }
+        .outcome-item h3 { font-size: 26px; }
+        .outcome-item p { font-size: 14px; }
 
-        .outcome-item {
-            text-align: center;
-            background: #F7F7F7;
-            border-radius: 12px;
-            padding: 40px 24px;
-        }
+        /* Learning */
+        .learning-box { padding: 28px 20px; margin: 28px 0 20px; }
+        .learning-box h3 { font-size: 20px; margin-bottom: 16px; }
+        .learning-box p { font-size: 15px; }
+        .reflection-box { padding: 16px 20px; }
+        .reflection-box p { font-size: 14px; }
 
-        .outcome-item h3 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #1a1a1a;
-        }
-
-        .outcome-item p {
-            font-size: 16px;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* Key Learning */
-        .learning-box {
-            background: rgba(0, 0, 0, 0.85);
-            color: white;
-            padding: 56px 48px;
-            border-radius: 12px;
-            margin: 48px 0 32px;
-        }
-
-        .learning-box h3 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            line-height: 1.3;
-        }
-
-        .learning-box p {
-            font-size: 18px;
-            line-height: 1.7;
-            margin-bottom: 20px;
-            opacity: 0.9;
-        }
-
-        .learning-box p:last-child {
-            margin-bottom: 0;
-        }
-
-        .reflection-box {
-            border-left: 3px solid #006DFF;
-            padding: 24px 32px;
-            background: #FAFAFA;
-            border-radius: 0 12px 12px 0;
-        }
-
-        .reflection-box p {
-            font-size: 17px;
-            line-height: 1.7;
-            color: #444;
-            margin: 0;
-        }
-
-        /* Footer */
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            color: #999;
-            font-size: 13px;
-            border-top: 1px solid #e5e5e5;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .process-card-image {
-                width: 320px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container, .nav-container {
-                padding: 0 24px;
-            }
-
-            .hero h1 {
-                font-size: 40px;
-            }
-
-            .section-title {
-                font-size: 32px;
-            }
-
-            .process-card {
-                flex-direction: column;
-            }
-
-            .process-card-image {
-                width: 100%;
-                height: 200px;
-            }
-
-            .outcome-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .carousel-slide-image {
-                height: 320px;
-            }
-        }
-    
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            width: 100px;
-            height: 100px;
-            background: #f5f5f5;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-            border: none;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 200;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .back-to-top:hover {
-            transform: translateY(-4px);
-            background: #ebebeb;
-        }
-
-        .back-to-top svg {
-            width: 28px;
-            height: 28px;
-        }
-
-        .back-to-top span {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            font-weight: 600;
-            color: #333;
-            letter-spacing: 0.05em;
-        }
-        </style>
+        /* Back to top */
+        .back-to-top { width: 52px; height: 52px; bottom: 24px; right: 20px; border-radius: 12px; }
+        .back-to-top svg { width: 20px; height: 20px; }
+        .back-to-top span { display: none; }
+    }
+</style>
 </head>
 <body>
-<!-- Navigation -->
+
 <nav>
-<div class="nav-container">
-<a class="logo" href="index.html"><img alt="Cătălin Şofan" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAjACkDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAgHBgP/xAArEAAABAQEBQUBAQAAAAAAAAAAAQIDBAUGBwgRGFUTIUGU0xIxN3WzUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9MONlKVuRQ8ZPJ5MJ1DxLEyXCJTBvNIQaEtNLIzJTajzzWfX+chpulS3m81T3LHhDA38TTT7178IcZlhxspStyKHjJ5PJhOoeJYmS4RKYN5pCDQlppZGZKbUeeaz6/zkA03Spbzeap7ljwhpUt5vNU9yx4Q0qW83mqe5Y8IaVLebzVPcseEBxl7cP9G0RbCb1PKpnP3oyC4PDREvsqbP1vttnmSWkn7LPqXPITMKZvbh/o2iLYTep5VM5+9GQXB4aIl9lTZ+t9ts8yS0k/ZZ9S55CZgFmYG/iaafevfhDhgb+Jpp969+EOGBv4mmn3r34Q4aVLebzVPcseEA0qW83mqe5Y8IaVLebzVPcseENKlvN5qnuWPCGlS3m81T3LHhAcZe3D/RtEWwm9TyqZz96MguDw0RL7Kmz9b7bZ5klpJ+yz6lzyEzC5cRcqh5Dhgmcjg1urhpdCQEIyp0yNakNxDCEmoyIiM8iLPIi/wQ0AAAAAAAAAAA/9k="/><span class="logo-name">Cătălin Şofan</span></a>
-<ul class="nav-links">
-<li><a href="index.html#work">Work</a></li>
-<li><a href="index.html#process">Process</a></li>
-<li><a href="index.html#about">About</a></li>
-<li><a href="index.html#contact">Contact</a></li>
-</ul>
-</div>
+    <div class="nav-container">
+        <a class="logo" href="index.html">
+            <img alt="Cătălin Şofan" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAjACkDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAgHBgP/xAArEAAABAQEBQUBAQAAAAAAAAAAAQIDBAUGBwgRGFUTIUGU0xIxN3WzUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9MONlKVuRQ8ZPJ5MJ1DxLEyXCJTBvNIQaEtNLIzJTajzzWfX+chpulS3m81T3LHhDA38TTT7178IcZlhxspStyKHjJ5PJhOoeJYmS4RKYN5pCDQlppZGZKbUeeaz6/zkA03Spbzeap7ljwhpUt5vNU9yx4Q0qW83mqe5Y8IaVLebzVPcseEBxl7cP9G0RbCb1PKpnP3oyC4PDREvsqbP1vttnmSWkn7LPqXPITMKZvbh/o2iLYTep5VM5+9GQXB4aIl9lTZ+t9ts8yS0k/ZZ9S55CZgFmYG/iaafevfhDhgb+Jpp969+EOGBv4mmn3r34Q4aVLebzVPcseEA0qW83mqe5Y8IaVLebzVPcseENKlvN5qnuWPCGlS3m81T3LHhAcZe3D/RtEWwm9TyqZz96MguDw0RL7Kmz9b7bZ5klpJ+yz6lzyEzC5cRcqh5Dhgmcjg1urhpdCQEIyp0yNakNxDCEmoyIiM8iLPIi/wQ0AAAAAAAAAAA/9k="/>
+            <span class="logo-name">Cătălin Şofan</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="index.html#process">Process</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
 </nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+        <a class="logo" href="index.html" onclick="closeMobileNav()">
+            <img alt="Cătălin Şofan" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAjACkDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAgHBgP/xAArEAAABAQEBQUBAQAAAAAAAAAAAQIDBAUGBwgRGFUTIUGU0xIxN3WzUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9MONlKVuRQ8ZPJ5MJ1DxLEyXCJTBvNIQaEtNLIzJTajzzWfX+chpulS3m81T3LHhDA38TTT7178IcZlhxspStyKHjJ5PJhOoeJYmS4RKYN5pCDQlppZGZKbUeeaz6/zkA03Spbzeap7ljwhpUt5vNU9yx4Q0qW83mqe5Y8IaVLebzVPcseEBxl7cP9G0RbCb1PKpnP3oyC4PDREvsqbP1vttnmSWkn7LPqXPITMKZvbh/o2iLYTep5VM5+9GQXB4aIl9lTZ+t9ts8yS0k/ZZ9S55CZgFmYG/iaafevfhDhgb+Jpp969+EOGBv4mmn3r34Q4aVLebzVPcseEA0qW83mqe5Y8IaVLebzVPcseENKlvN5qnuWPCGlS3m81T3LHhAcZe3D/RtEWwm9TyqZz96MguDw0RL7Kmz9b7bZ5klpJ+yz6lzyEzC5cRcqh5Dhgmcjg1urhpdCQEIyp0yNakNxDCEmoyIiM8iLPIi/wQ0AAAAAAAAAAA/9k="/>
+            <span class="logo-name">Cătălin Şofan</span>
+        </a>
+        <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6l12 12" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+    </div>
+    <div class="mobile-nav-body">
+        <div class="mobile-nav-section-label">Work</div>
+        <a href="gravityzone_simplified.html" class="mobile-nav-link" onclick="closeMobileNav()">Enterprise Security Platform</a>
+        <a href="design_system_case_study.html" class="mobile-nav-link active" onclick="closeMobileNav()">Company-Wide Design System</a>
+        <a href="myco_case_study.html" class="mobile-nav-link" onclick="closeMobileNav()">Healthcare Collaboration</a>
+        <a href="authentication_innovation.html" class="mobile-nav-link" onclick="closeMobileNav()">Authentication Innovation</a>
+        <div class="mobile-nav-section-label">Process</div>
+        <a href="process_section.html" class="mobile-nav-link" onclick="closeMobileNav()">5-Step Design Framework</a>
+    </div>
+    <div class="mobile-nav-footer">
+        <a href="mailto:catalin.sofan@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/catalinsofan/" target="_blank">LinkedIn</a>
+    </div>
+</div>
+
 <!-- Hero -->
 <section class="hero">
-<div class="container">
-<a class="back-link" href="index.html#work">← Back to Work</a>
-<h1>Company-Wide Design System</h1>
-<p class="meta">Role: Design System Designer  ·  Timeline: 2020–2024  ·  Bitdefender, Cluj-Napoca</p>
-<p class="intro">Co-creating a scalable, company-wide design system that unified multiple enterprise security products and gave dozens of teams a shared language for building faster and more consistently.</p>
-</div>
+    <div class="container">
+        <a class="back-link" href="index.html#work">← Back to Work</a>
+        <h1>Enterprise Security Platform</h1>
+        <p class="meta">Role: Design System Designer  ·  Timeline: 2020–2024  ·  Bitdefender, Cluj-Napoca</p>
+        <p class="intro">Co-creating a scalable, company-wide design system that unified multiple enterprise security products and gave dozens of teams a shared language for building faster and more consistently.</p>
+    </div>
 </section>
-<!-- Context & Role (merged) -->
+
+<!-- Context & Role -->
 <section style="background: #FAFAFA;">
-<div class="container">
-<div class="section-label">CONTEXT &amp; ROLE</div>
-<h2 class="section-title">The Problem and My Part in Solving It</h2>
-<div class="section-content">
-<p>Bitdefender was undergoing a platform redesign with multiple products running different design patterns leading to UI inconsistencies across the product suite and duplicated effort between design and engineering.</p>
-<p>I was one of four designers chosen to build the design system from scratch. My responsibilities spanned the full lifecycle:</p>
-<ul>
-<li>Component design and documentation: from simple inputs to complex patterns like wizards and smart views</li>
-<li>Cross-team collaboration: running workshops to understand component requirements across product lines</li>
-<li>Engineering alignment: working closely with developers to ensure the system translated cleanly into Storybook</li>
-<li>Adoption: presenting the system to teams and collecting feedback to iterate</li>
-</ul>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">CONTEXT &amp; ROLE</div>
+        <h2 class="section-title">The Problem and My Part in Solving It</h2>
+        <div class="section-content">
+            <p>Bitdefender was undergoing a platform redesign with multiple products running different design patterns leading to UI inconsistencies across the product suite and duplicated effort between design and engineering.</p>
+            <p>I was one of four designers chosen to build the design system from scratch. My responsibilities spanned the full lifecycle:</p>
+            <ul>
+                <li>Component design and documentation: from simple inputs to complex patterns like wizards and smart views</li>
+                <li>Cross-team collaboration: running workshops to understand component requirements across product lines</li>
+                <li>Engineering alignment: working closely with developers to ensure the system translated cleanly into Storybook</li>
+                <li>Adoption: presenting the system to teams and collecting feedback to iterate</li>
+            </ul>
+        </div>
+    </div>
 </section>
+
 <!-- Process -->
 <section>
-<div class="container">
-<div class="section-label">PROCESS</div>
-<h2 class="section-title">How We Built It</h2>
-<div class="process-cards">
-<div class="process-card">
-<div class="process-card-content">
-<div class="process-card-phase">Phase 1</div>
-<h3 class="process-card-title">Audit</h3>
-<p class="process-card-description">We started by documenting every existing pattern across all products. This gave us a complete picture of what existed, what overlapped, and what was broken. This became the foundation for everything that followed.</p>
-</div>
-<div class="process-card-image">
-<!-- <img src="audit-screenshot.png" alt="Audit documentation"> -->
-<img alt="Audit documentation" src="audit-documentation.png"/>
-</div>
-</div>
-<div class="process-card">
-<div class="process-card-content">
-<div class="process-card-phase">Phase 2</div>
-<h3 class="process-card-title">Prioritization</h3>
-<p class="process-card-description">We mapped component frequency across products and prioritised by impact. Starting with the most-used components meant we could deliver value quickly and build trust with teams before tackling more complex patterns.</p>
-</div>
-<div class="process-card-image">
-<!-- <img src="top-components.png" alt="Top used components"> -->
-<img alt="Top components by priority" src="top-components-by-priority.png"/>
-</div>
-</div>
-<div class="process-card">
-<div class="process-card-content">
-<div class="process-card-phase">Phase 3</div>
-<h3 class="process-card-title">Design</h3>
-<p class="process-card-description">Components were designed in Figma with engineering involved from the start, not as a handoff step. Close collaboration at this stage prevented costly misalignments and kept the Storybook implementation accurate.</p>
-</div>
-<div class="process-card-image">
-<!-- <img src="component-design.png" alt="Component design in Figma"> -->
-<img alt="Component design in Figma" src="component-design-in-figma.png"/>
-</div>
-</div>
-<div class="process-card">
-<div class="process-card-content">
-<div class="process-card-phase">Phase 4</div>
-<h3 class="process-card-title">Documentation</h3>
-<p class="process-card-description">Every component shipped with usage guidelines: when to use it, when not to, and how to handle edge cases. Good documentation is what separates a component library from an actual design system.</p>
-</div>
-<div class="process-card-image">
-<!-- <img src="guidelines.png" alt="Component guidelines"> -->
-<img alt="Component guidelines and usage" src="component-guidelines-and-usage.png"/>
-</div>
-</div>
-<div class="process-card">
-<div class="process-card-content">
-<div class="process-card-phase">Phase 5</div>
-<h3 class="process-card-title">Education</h3>
-<p class="process-card-description">We ran workshops across product teams to present new components, walk through usage, and collect feedback. Adoption doesn't happen automatically. It requires making other teams feel ownership over the system too.</p>
-</div>
-<div class="process-card-image">
-<!-- <img src="workshop.png" alt="Workshop presentation"> -->
-<img alt="Workshop and education" src="workshop-and-education.png"/>
-</div>
-</div>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">PROCESS</div>
+        <h2 class="section-title">How We Built It</h2>
+        <div class="process-cards">
+            <div class="process-card">
+                <div class="process-card-image">
+                    <img alt="Audit documentation" src="audit-documentation.png"/>
+                </div>
+                <div class="process-card-content">
+                    <div class="process-card-phase">Phase 1</div>
+                    <h3 class="process-card-title">Audit</h3>
+                    <p class="process-card-description">We started by documenting every existing pattern across all products. This gave us a complete picture of what existed, what overlapped, and what was broken. This became the foundation for everything that followed.</p>
+                </div>
+            </div>
+            <div class="process-card">
+                <div class="process-card-image">
+                    <img alt="Top components by priority" src="top-components-by-priority.png"/>
+                </div>
+                <div class="process-card-content">
+                    <div class="process-card-phase">Phase 2</div>
+                    <h3 class="process-card-title">Prioritization</h3>
+                    <p class="process-card-description">We mapped component frequency across products and prioritised by impact. Starting with the most-used components meant we could deliver value quickly and build trust with teams before tackling more complex patterns.</p>
+                </div>
+            </div>
+            <div class="process-card">
+                <div class="process-card-image">
+                    <img alt="Component design in Figma" src="component-design-in-figma.png"/>
+                </div>
+                <div class="process-card-content">
+                    <div class="process-card-phase">Phase 3</div>
+                    <h3 class="process-card-title">Design</h3>
+                    <p class="process-card-description">Components were designed in Figma with engineering involved from the start, not as a handoff step. Close collaboration at this stage prevented costly misalignments and kept the Storybook implementation accurate.</p>
+                </div>
+            </div>
+            <div class="process-card">
+                <div class="process-card-image">
+                    <img alt="Component guidelines and usage" src="component-guidelines-and-usage.png"/>
+                </div>
+                <div class="process-card-content">
+                    <div class="process-card-phase">Phase 4</div>
+                    <h3 class="process-card-title">Documentation</h3>
+                    <p class="process-card-description">Every component shipped with usage guidelines: when to use it, when not to, and how to handle edge cases. Good documentation is what separates a component library from an actual design system.</p>
+                </div>
+            </div>
+            <div class="process-card">
+                <div class="process-card-image">
+                    <img alt="Workshop and education" src="workshop-and-education.png"/>
+                </div>
+                <div class="process-card-content">
+                    <div class="process-card-phase">Phase 5</div>
+                    <h3 class="process-card-title">Education</h3>
+                    <p class="process-card-description">We ran workshops across product teams to present new components, walk through usage, and collect feedback. Adoption doesn't happen automatically. It requires making other teams feel ownership over the system too.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
 <!-- Component Carousel -->
 <section style="background: #FAFAFA;">
-<div class="container">
-<div class="section-label">COMPONENTS</div>
-<h2 class="section-title">Design System Library</h2>
-<div class="carousel-wrapper">
-<div class="carousel-track-container">
-<div class="carousel-track" id="carouselTrack">
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<!-- <img src="typefaces.png" alt="Typefaces"> -->
-<img alt="Typefaces" src="typefaces.png"/>
-</div>
-<div class="carousel-caption"><h3>Typefaces</h3></div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<!-- <img src="radio-buttons.png" alt="Radio Buttons"> -->
-<img alt="Radio Buttons" src="radio-buttons.png"/>
-</div>
-<div class="carousel-caption"><h3>Radio Buttons</h3></div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<!-- <img src="inputs.png" alt="Inputs"> -->
-<img alt="Inputs" src="inputs.png"/>
-</div>
-<div class="carousel-caption"><h3>Inputs</h3></div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<!-- <img src="dropdown.png" alt="Dropdown"> -->
-<img alt="Dropdown" src="dropdown.png"/>
-</div>
-<div class="carousel-caption"><h3>Dropdown</h3></div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<!-- <img src="wizard.png" alt="Wizard"> -->
-<img alt="Wizard" src="wizard.png"/>
-</div>
-<div class="carousel-caption"><h3>Wizard</h3></div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<!-- <img src="light-grid.png" alt="Light Grid"> -->
-<img alt="Light Grid" src="light-grid.png"/>
-</div>
-<div class="carousel-caption"><h3>Light Grid</h3></div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<!-- <img src="general-menu.png" alt="General Menu"> -->
-<img alt="General Menu" src="general-menu.png"/>
-</div>
-<div class="carousel-caption"><h3>General Menu</h3></div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<!-- <img src="right-side-panel.png" alt="Right Side Panel"> -->
-<img alt="Right Side Panel" src="right-side-panel.png"/>
-</div>
-<div class="carousel-caption"><h3>Right Side Panel</h3></div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<!-- <img src="smart-view-panel.png" alt="Smart View Panel"> -->
-<img alt="Smart View Panel" src="smart-view-panel.png"/>
-</div>
-<div class="carousel-caption"><h3>Smart View Panel</h3></div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<!-- <img src="dialogs.png" alt="Dialogs"> -->
-<img alt="Dialogs" src="dialogs.png"/>
-</div>
-<div class="carousel-caption"><h3>Dialogs</h3></div>
-</div>
-<div class="carousel-slide">
-<div class="carousel-slide-image">
-<!-- <img src="empty-states.png" alt="Empty States"> -->
-<img alt="Empty States" src="empty-states.png"/>
-</div>
-<div class="carousel-caption"><h3>Empty States</h3></div>
-</div>
-</div>
-</div>
-<div class="carousel-controls">
-<button aria-label="Previous" class="carousel-btn" id="prevBtn">
-<svg fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M15 18L9 12L15 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-<button aria-label="Next" class="carousel-btn" id="nextBtn">
-<svg fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M9 18L15 12L9 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-<div class="carousel-dots" id="carouselDots"></div>
-<span class="carousel-counter" id="carouselCounter">1 / 11</span>
-</div>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">COMPONENTS</div>
+        <h2 class="section-title">Design System Library</h2>
+        <div class="carousel-wrapper">
+            <div class="carousel-track-container">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Typefaces" src="typefaces.png"/></div>
+                        <div class="carousel-caption"><h3>Typefaces</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Radio Buttons" src="radio-buttons.png"/></div>
+                        <div class="carousel-caption"><h3>Radio Buttons</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Inputs" src="inputs.png"/></div>
+                        <div class="carousel-caption"><h3>Inputs</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Dropdown" src="dropdown.png"/></div>
+                        <div class="carousel-caption"><h3>Dropdown</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Wizard" src="wizard.png"/></div>
+                        <div class="carousel-caption"><h3>Wizard</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Light Grid" src="light-grid.png"/></div>
+                        <div class="carousel-caption"><h3>Light Grid</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="General Menu" src="general-menu.png"/></div>
+                        <div class="carousel-caption"><h3>General Menu</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Right Side Panel" src="right-side-panel.png"/></div>
+                        <div class="carousel-caption"><h3>Right Side Panel</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Smart View Panel" src="smart-view-panel.png"/></div>
+                        <div class="carousel-caption"><h3>Smart View Panel</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Dialogs" src="dialogs.png"/></div>
+                        <div class="carousel-caption"><h3>Dialogs</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img alt="Empty States" src="empty-states.png"/></div>
+                        <div class="carousel-caption"><h3>Empty States</h3></div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button aria-label="Previous" class="carousel-btn" id="prevBtn">
+                    <svg fill="none" viewBox="0 0 24 24"><path d="M15 18L9 12L15 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                </button>
+                <button aria-label="Next" class="carousel-btn" id="nextBtn">
+                    <svg fill="none" viewBox="0 0 24 24"><path d="M9 18L15 12L9 6" stroke="#1a1a1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                </button>
+                <div class="carousel-dots" id="carouselDots"></div>
+                <span class="carousel-counter" id="carouselCounter">1 / 11</span>
+            </div>
+            <div class="carousel-pagination" id="carouselLines"></div>
+        </div>
+    </div>
 </section>
+
 <!-- Outcomes -->
 <section>
-<div class="container">
-<div class="section-label">RESULTS</div>
-<h2 class="section-title">Impact &amp; Outcomes</h2>
-<div class="outcome-grid">
-<div class="outcome-item">
-<h3>Company-Wide</h3>
-<p>Adopted across all Bitdefender products</p>
-</div>
-<div class="outcome-item">
-<h3>Faster</h3>
-<p>Accelerated design and development with Storybook</p>
-</div>
-<div class="outcome-item">
-<h3>Consistent</h3>
-<p>Unified UI patterns across the entire product suite</p>
-</div>
-</div>
-<div class="section-content" style="margin-top: 16px;">
-<p>The design system was implemented as a web component library in Storybook, providing a clear and rapid implementation path for engineering teams. This technical foundation enabled faster development cycles and kept design and development in sync throughout the product lifecycle.</p>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">RESULTS</div>
+        <h2 class="section-title">Impact &amp; Outcomes</h2>
+        <div class="outcome-grid">
+            <div class="outcome-item">
+                <h3>Company-Wide</h3>
+                <p>Adopted across all Bitdefender products</p>
+            </div>
+            <div class="outcome-item">
+                <h3>Faster</h3>
+                <p>Accelerated design and development with Storybook</p>
+            </div>
+            <div class="outcome-item">
+                <h3>Consistent</h3>
+                <p>Unified UI patterns across the entire product suite</p>
+            </div>
+        </div>
+        <div class="section-content" style="margin-top: 16px;">
+            <p>The design system was implemented as a web component library in Storybook, providing a clear and rapid implementation path for engineering teams. This technical foundation enabled faster development cycles and kept design and development in sync throughout the product lifecycle.</p>
+        </div>
+    </div>
 </section>
+
 <!-- Key Learnings -->
 <section style="background: #FAFAFA;">
-<div class="container">
-<div class="section-label">KEY LEARNINGS</div>
-<h2 class="section-title">What I Learned</h2>
-<div class="learning-box">
-<h3>Design Systems are 50% design and 50% people management</h3>
-<p>The technical work of building components is the easy part. The harder part was gaining colleagues' trust at the beginning, when we were presenting a few simple components while holding the vision of the entire system in our heads.</p>
-<p>After delivering high-impact components like grids with filters, side panels, and wizards, teams started seeing the real benefits. That momentum made adoption self-sustaining.</p>
-</div>
-<div class="reflection-box">
-<p><strong>What I'd do differently:</strong> I'd push for closer involvement from product teams in the audit phase, not just as information sources, but as co-owners. The adoption curve would have been shorter if teams felt the system was partly theirs from day one rather than something delivered to them.</p>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">KEY LEARNINGS</div>
+        <h2 class="section-title">What I Learned</h2>
+        <div class="learning-box">
+            <h3>Design Systems are 50% design and 50% people management</h3>
+            <p>The technical work of building components is the easy part. The harder part was gaining colleagues' trust at the beginning, when we were presenting a few simple components while holding the vision of the entire system in our heads.</p>
+            <p>After delivering high-impact components like grids with filters, side panels, and wizards, teams started seeing the real benefits. That momentum made adoption self-sustaining.</p>
+        </div>
+        <div class="reflection-box">
+            <p><strong>What I'd do differently:</strong> I'd push for closer involvement from product teams in the audit phase, not just as information sources, but as co-owners. The adoption curve would have been shorter if teams felt the system was partly theirs from day one rather than something delivered to them.</p>
+        </div>
+    </div>
 </section>
+
 <footer>
-<div class="container">
-<p>© 2026 Cătălin Şofan. Based in Cluj-Napoca, Romania.</p>
-</div>
+    <div class="container">
+        <p>© 2026 Cătălin Şofan. Based in Cluj-Napoca, Romania.</p>
+    </div>
 </footer>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 19V5M12 5L6 11M12 5L18 11" stroke="#333333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>TOP</span>
+</button>
+
 <script>
-        const track = document.getElementById('carouselTrack');
-        const slides = track.querySelectorAll('.carousel-slide');
-        const dotsContainer = document.getElementById('carouselDots');
-        const counter = document.getElementById('carouselCounter');
-        const total = slides.length;
-        let current = 0;
+    // Hamburger
+    const hamburgerBtn   = document.getElementById('hamburgerBtn');
+    const mobileNav      = document.getElementById('mobileNav');
+    const mobileNavClose = document.getElementById('mobileNavClose');
 
-        slides.forEach((_, i) => {
-            const dot = document.createElement('button');
-            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-            dot.addEventListener('click', () => goTo(i));
-            dotsContainer.appendChild(dot);
-        });
+    hamburgerBtn.addEventListener('click', () => {
+        mobileNav.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    });
 
-        function goTo(index) {
-            current = (index + total) % total;
-            track.style.transform = `translateX(-${current * 100}%)`;
-            dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
-                d.classList.toggle('active', i === current);
-            });
-            counter.textContent = `${current + 1} / ${total}`;
-        }
+    mobileNavClose.addEventListener('click', closeMobileNav);
 
-        document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
-        document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+    function closeMobileNav() {
+        mobileNav.classList.remove('open');
+        document.body.style.overflow = '';
+    }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') goTo(current - 1);
-            if (e.key === 'ArrowRight') goTo(current + 1);
-        });
-    
-        document.addEventListener('DOMContentLoaded', () => {
-            const btn = document.getElementById('backToTop');
-            window.addEventListener('scroll', () => {
-                const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-                btn.classList.toggle('visible', scrolled > 0.5);
-            });
-        });
-    </script>
+    // Carousel
+    const track          = document.getElementById('carouselTrack');
+    const slides         = track.querySelectorAll('.carousel-slide');
+    const dotsContainer  = document.getElementById('carouselDots');
+    const counter        = document.getElementById('carouselCounter');
+    const linesContainer = document.getElementById('carouselLines');
+    const total          = slides.length;
+    let current          = 0;
 
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 19V5M12 5L6 11M12 5L18 11" stroke="#333333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>TOP</span>
-    </button>
+    // Build dots
+    slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(dot);
+    });
+
+    // Build pagination lines + counter
+    slides.forEach((_, i) => {
+        const line = document.createElement('div');
+        line.className = 'carousel-pagination-line' + (i === 0 ? ' active' : '');
+        linesContainer.appendChild(line);
+    });
+    const mobileCounter = document.createElement('span');
+    mobileCounter.className = 'carousel-pagination-counter';
+    mobileCounter.textContent = `1 / ${total}`;
+    linesContainer.appendChild(mobileCounter);
+
+    function goTo(index) {
+        current = (index + total) % total;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+        linesContainer.querySelectorAll('.carousel-pagination-line').forEach((l, i) => l.classList.toggle('active', i === current));
+        counter.textContent = `${current + 1} / ${total}`;
+        mobileCounter.textContent = `${current + 1} / ${total}`;
+    }
+
+    // Touch swipe
+    let startX = 0;
+    track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+    }, { passive: true });
+
+    document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    // Back to top
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        backToTop.classList.toggle('visible', scrolled > 0.3);
+    });
+</script>
 
 </body>
 </html>
