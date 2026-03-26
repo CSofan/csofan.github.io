@@ -1,714 +1,635 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Authentication Innovation - Cătălin Şofan</title>
 <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background: #ffffff;
-        }
+    body {
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        line-height: 1.6; color: #1a1a1a; background: #ffffff;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
 
-        /* Navigation */
-        nav {
-            padding: 24px 0;
-            border-bottom: 1px solid #e5e5e5;
-            position: sticky;
-            top: 0;
-            background: #ffffff;
-            z-index: 100;
-        }
+    /* ── NAV ── */
+    nav {
+        padding: 24px 0; border-bottom: 1px solid #e5e5e5;
+        position: sticky; top: 0; background: #ffffff; z-index: 300;
+    }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .nav-container {
+        max-width: 1200px; margin: 0 auto; padding: 0 40px;
+        display: flex; justify-content: space-between; align-items: center;
+    }
 
-        .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
+    .logo { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo img { height: 32px; width: auto; display: block; }
+    .logo-name { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: #666; text-decoration: none; font-size: 15px; transition: color 0.2s; }
+    .nav-links a:hover { color: #1a1a1a; }
 
-        .logo img { height: 32px; width: auto; display: block; }
-        .logo-name { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+    .hamburger {
+        display: none; flex-direction: column; justify-content: space-between;
+        width: 28px; height: 20px; cursor: pointer; background: none; border: none; padding: 0;
+    }
+    .hamburger span { display: block; height: 2px; background: #1a1a1a; border-radius: 2px; }
 
-        .nav-links { display: flex; gap: 32px; list-style: none; }
+    /* ── MOBILE NAV ── */
+    .mobile-nav {
+        display: none; position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%; background: #ffffff; z-index: 350; flex-direction: column;
+    }
+    .mobile-nav.open { display: flex; }
 
-        .nav-links a {
-            color: #666;
-            text-decoration: none;
-            font-size: 15px;
-            transition: color 0.2s;
-        }
+    .mobile-nav-header {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 24px 24px 20px; border-bottom: 1px solid #e5e5e5; flex-shrink: 0;
+    }
+    .mobile-nav-close { background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; }
 
-        .nav-links a:hover { color: #1a1a1a; }
+    .mobile-nav-body {
+        flex: 1; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; padding: 32px 24px; text-align: center;
+    }
 
-        /* Hero */
-        .hero { padding: 80px 0 60px; }
+    .mobile-nav-section-label {
+        font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+        color: #1a1a1a; margin-bottom: 12px; margin-top: 28px;
+    }
+    .mobile-nav-section-label:first-child { margin-top: 0; }
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #666;
-            text-decoration: none;
-            font-size: 15px;
-            margin-bottom: 40px;
-            transition: color 0.2s;
-        }
+    .mobile-nav-link {
+        display: block; font-size: 18px; color: #444; text-decoration: none;
+        padding: 9px 0; transition: color 0.2s; width: 100%;
+    }
+    .mobile-nav-link:hover, .mobile-nav-link.active { color: #006DFF; }
 
-        .back-link:hover { color: #1a1a1a; }
+    .mobile-nav-footer {
+        flex-shrink: 0; padding: 24px; border-top: 1px solid #e5e5e5; display: flex; gap: 12px;
+    }
+    .mobile-nav-footer a {
+        flex: 1; padding: 13px; text-align: center; font-size: 14px; font-weight: 600;
+        color: #1a1a1a; text-decoration: none; border: 1px solid #e5e5e5; border-radius: 8px; transition: all 0.2s;
+    }
+    .mobile-nav-footer a:hover { background: #006DFF; color: white; border-color: #006DFF; }
 
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 24px;
-        }
+    /* ── HERO ── */
+    .hero { padding: 80px 0 60px; }
 
-        .hero .meta {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 40px;
-        }
+    .back-link {
+        display: inline-flex; align-items: center; gap: 8px;
+        color: #666; text-decoration: none; font-size: 15px; margin-bottom: 40px; transition: color 0.2s;
+    }
+    .back-link:hover { color: #1a1a1a; }
 
-        .hero .intro {
-            font-size: 20px;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1120px;
-        }
+    .hero h1 { font-size: 56px; font-weight: 700; line-height: 1.2; margin-bottom: 24px; }
+    .hero .meta { font-size: 16px; color: #666; margin-bottom: 40px; }
+    .hero .intro { font-size: 20px; line-height: 1.6; color: #333; max-width: 1120px; }
 
-        /* Sections */
-        section { padding: 60px 0; }
+    section { padding: 60px 0; }
 
-        .section-label {
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #006DFF;
-            margin-bottom: 16px;
-        }
+    .section-label {
+        font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+        color: #006DFF; margin-bottom: 16px;
+    }
+    .section-title { font-size: 40px; font-weight: 700; margin-bottom: 32px; }
+    .section-content { max-width: 1120px; }
+    .section-content p { font-size: 18px; line-height: 1.7; color: #333; margin-bottom: 24px; }
+    .section-content ul { list-style: none; padding: 0; margin-bottom: 24px; }
+    .section-content ul li {
+        font-size: 18px; line-height: 1.7; color: #333;
+        padding-left: 24px; position: relative; margin-bottom: 16px;
+    }
+    .section-content ul li:before { content: "-"; position: absolute; left: 0; color: #006DFF; font-weight: 600; }
 
-        .section-title {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 32px;
-        }
+    /* ── AUTH EVOLUTION STRIP ── */
+    .auth-evolution {
+        display: flex; align-items: flex-start; margin: 48px 0 16px;
+        flex-wrap: nowrap;
+    }
 
-        .section-content { max-width: 1120px; }
+    .auth-step {
+        display: flex; flex-direction: column; align-items: center;
+        gap: 10px; width: 80px; flex-shrink: 0;
+    }
 
-        .section-content p {
-            font-size: 18px;
-            line-height: 1.7;
-            color: #333;
-            margin-bottom: 24px;
-        }
+    .auth-step-thumb {
+        width: 80px; height: 80px; border-radius: 16px; overflow: hidden;
+        border: 1px solid #e5e5e5; background: #F0F0F0;
+        display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
 
-        .section-content ul {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 24px;
-        }
+    .auth-step-thumb img { width: 80px; height: 80px; object-fit: contain; display: block; }
+    .auth-step-label { font-size: 13px; font-weight: 600; color: #444; text-align: center; }
+    .auth-step-sublabel { font-size: 12px; color: #999; text-align: center; margin-top: -6px; }
 
-        .section-content ul li {
-            font-size: 18px;
-            line-height: 1.7;
-            color: #333;
-            padding-left: 24px;
-            position: relative;
-            margin-bottom: 16px;
-        }
+    .auth-arrow {
+        font-size: 20px; color: #ccc; width: 40px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center; height: 80px;
+    }
 
-        .section-content ul li:before {
-            content: "-";
-            position: absolute;
-            left: 0;
-            color: #006DFF;
-            font-weight: 600;
-        }
+    /* ── INITIATIVE CALLOUT ── */
+    .initiative-callout {
+        background: #F7F9FF; border: 1px solid #D0E2FF; border-radius: 12px;
+        padding: 36px 40px; max-width: 1120px; margin: 48px 0;
+    }
+    .initiative-callout h3 { font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; }
+    .initiative-callout p { font-size: 16px; line-height: 1.7; color: #444; margin: 0; }
 
-        /* Auth evolution strip */
-        .auth-evolution {
-            display: flex;
-            align-items: flex-start;
-            margin: 48px 0 16px;
-        }
+    /* ── PILLARS GRID ── */
+    .pillars-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 24px; margin: 48px 0; max-width: 1120px;
+    }
 
-        .auth-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            width: 80px;
-            flex-shrink: 0;
-        }
+    .pillar-card {
+        border: 1px solid #e5e5e5; border-radius: 12px; padding: 36px 32px;
+        background: #ffffff; transition: transform 0.3s ease;
+    }
+    .pillar-card:hover { transform: translateY(-4px); }
 
-        .auth-step-thumb {
-            width: 80px;
-            height: 80px;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid #e5e5e5;
-            background: #F0F0F0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
+    .pillar-number {
+        font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+        color: #006DFF; margin-bottom: 16px;
+    }
+    .pillar-card h3 { font-size: 22px; font-weight: 700; color: #1a1a1a; margin-bottom: 14px; line-height: 1.3; }
+    .pillar-card p { font-size: 15px; color: #555; line-height: 1.7; }
 
-        .auth-step-thumb img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            display: block;
-        }
+    /* ── CAROUSEL ── */
+    .carousel-wrapper { margin-top: 48px; position: relative; }
+    .carousel-track-container { overflow: hidden; border-radius: 12px; border: 1px solid #e5e5e5; }
+    .carousel-track { display: flex; transition: transform 0.4s ease; }
+    .carousel-slide { min-width: 100%; background: #F7F7F7; }
+    .carousel-slide-image {
+        width: 100%; height: 560px;
+        display: flex; align-items: center; justify-content: center;
+        background: #ffffff; overflow: hidden;
+    }
+    .carousel-slide-image img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .carousel-caption { padding: 20px 32px; background: #ffffff; border-top: 1px solid #e5e5e5; }
+    .carousel-caption h3 { font-size: 18px; font-weight: 600; color: #1a1a1a; }
+    .carousel-controls { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
+    .carousel-btn {
+        width: 44px; height: 44px; border-radius: 50%;
+        border: 1px solid #e5e5e5; background: #ffffff;
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: all 0.2s; flex-shrink: 0;
+    }
+    .carousel-btn:hover { background: #006DFF; border-color: #006DFF; }
+    .carousel-btn:hover svg path { stroke: #ffffff; }
+    .carousel-btn svg { width: 18px; height: 18px; }
+    .carousel-dots { display: flex; gap: 8px; align-items: center; }
+    .carousel-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: #e5e5e5; cursor: pointer; transition: all 0.2s; border: none; padding: 0;
+    }
+    .carousel-dot.active { background: #006DFF; width: 24px; border-radius: 4px; }
+    .carousel-counter { font-size: 13px; color: #999; margin-left: auto; }
 
-        .auth-step-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: #444;
-            text-align: center;
-        }
+    /* Pagination lines -- mobile only */
+    .carousel-pagination {
+        display: none; align-items: center; gap: 6px; margin-top: 10px;
+    }
+    .carousel-pagination-line {
+        height: 2px; flex: 1; max-width: 48px;
+        background: #e5e5e5; border-radius: 2px; transition: background 0.2s;
+    }
+    .carousel-pagination-line.active { background: #006DFF; }
+    .carousel-pagination-counter {
+        font-size: 12px; color: #999; margin-left: auto; white-space: nowrap; flex-shrink: 0;
+    }
 
-        .auth-step-sublabel {
-            font-size: 12px;
-            color: #999;
-            text-align: center;
-            margin-top: -6px;
-        }
+    /* ── OUTCOMES ── */
+    .outcome-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 32px; margin: 48px 0; max-width: 1120px;
+    }
+    .outcome-item { text-align: center; background: #F7F7F7; border-radius: 12px; padding: 40px 24px; }
+    .outcome-item h3 { font-size: 32px; font-weight: 700; margin-bottom: 12px; color: #1a1a1a; }
+    .outcome-item p { font-size: 16px; color: #666; line-height: 1.5; }
 
-        .auth-arrow {
-            font-size: 20px;
-            color: #ccc;
-            width: 80px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 80px;
-        }
+    /* ── LEARNING ── */
+    .learning-box {
+        background: rgba(0,0,0,0.85); color: white;
+        padding: 56px 48px; border-radius: 12px; margin: 48px 0 32px; max-width: 1120px;
+    }
+    .learning-box h3 { font-size: 28px; font-weight: 700; margin-bottom: 24px; line-height: 1.3; }
+    .learning-box p { font-size: 18px; line-height: 1.7; margin-bottom: 20px; opacity: 0.9; }
+    .learning-box p:last-child { margin-bottom: 0; }
+
+    .reflection-box {
+        border-left: 3px solid #006DFF; padding: 24px 32px;
+        background: #FAFAFA; border-radius: 0 12px 12px 0; max-width: 1120px;
+    }
+    .reflection-box p { font-size: 17px; line-height: 1.7; color: #444; margin: 0; }
+
+    /* ── FOOTER ── */
+    footer { padding: 40px 0; text-align: center; color: #999; font-size: 13px; border-top: 1px solid #e5e5e5; }
+
+    /* ── BACK TO TOP ── */
+    .back-to-top {
+        position: fixed; bottom: 40px; right: 40px;
+        width: 100px; height: 100px; background: #f5f5f5; border-radius: 16px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 6px; cursor: pointer; border: none; opacity: 0; pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease; z-index: 200;
+    }
+    .back-to-top.visible { opacity: 1; pointer-events: all; }
+    .back-to-top:hover { transform: translateY(-4px); background: #ebebeb; }
+    .back-to-top svg { width: 28px; height: 28px; }
+    .back-to-top span { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; color: #333; letter-spacing: 0.05em; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+        .nav-container { padding: 0 20px; }
+        .nav-links { display: none; }
+        .hamburger { display: flex; }
+        .container { padding: 0 20px; }
+
+        .hero { padding: 40px 0 32px; }
+        .hero h1 { font-size: 28px; line-height: 1.25; }
+        .hero .meta { font-size: 13px; margin-bottom: 20px; }
+        .hero .intro { font-size: 16px; }
+        .back-link { font-size: 13px; margin-bottom: 24px; }
+
+        section { padding: 40px 0; }
+        .section-title { font-size: 24px; margin-bottom: 20px; }
+        .section-content p { font-size: 15px; }
+        .section-content ul li { font-size: 15px; }
+
+        /* Auth evolution -- single line, smaller on mobile */
+        .auth-evolution { margin: 28px 0 12px; }
+        .auth-step { width: 64px; }
+        .auth-step-thumb { width: 64px; height: 64px; }
+        .auth-step-thumb img { width: 64px; height: 64px; }
+        .auth-step-label { font-size: 11px; }
+        .auth-step-sublabel { font-size: 10px; }
+        .auth-arrow { width: 24px; font-size: 14px; height: 64px; }
+
+        /* Pillars -- single column */
+        .pillars-grid { grid-template-columns: 1fr; gap: 12px; margin: 28px 0; }
+        .pillar-card { padding: 24px 20px; }
+        .pillar-card h3 { font-size: 18px; }
+        .pillar-card p { font-size: 14px; }
 
         /* Initiative callout */
-        .initiative-callout {
-            background: #F7F9FF;
-            border: 1px solid #D0E2FF;
-            border-radius: 12px;
-            padding: 36px 40px;
-            max-width: 1120px;
-            margin: 48px 0;
-        }
+        .initiative-callout { padding: 20px; margin: 28px 0; }
+        .initiative-callout h3 { font-size: 17px; }
+        .initiative-callout p { font-size: 14px; }
 
-        .initiative-callout h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 10px;
-        }
-
-        .initiative-callout p {
-            font-size: 16px;
-            line-height: 1.7;
-            color: #444;
-            margin: 0;
-        }
-
-        /* Three pillars */
-        .pillars-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin: 48px 0;
-            max-width: 1120px;
-        }
-
-        .pillar-card {
-            border: 1px solid #e5e5e5;
-            border-radius: 12px;
-            padding: 36px 32px;
-            background: #ffffff;
-            transition: transform 0.3s ease;
-        }
-
-        .pillar-card:hover { transform: translateY(-4px); }
-
-        .pillar-number {
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #006DFF;
-            margin-bottom: 16px;
-        }
-
-        .pillar-card h3 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 14px;
-            line-height: 1.3;
-        }
-
-        .pillar-card p {
-            font-size: 15px;
-            color: #555;
-            line-height: 1.7;
-        }
-
-        /* Image grid */
-
-        /* Lightbox */
+        /* Carousel */
+        .carousel-wrapper { margin-top: 28px; }
+        .carousel-slide-image { height: 280px; }
+        .carousel-caption { padding: 12px 16px; }
+        .carousel-caption h3 { font-size: 14px; }
+        .carousel-controls { gap: 10px; margin-top: 14px; }
+        .carousel-btn { display: none; }
+        .carousel-dots { display: none; }
+        .carousel-counter { display: none; }
+        .carousel-pagination { display: flex; }
 
         /* Outcomes */
-        .outcome-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-            margin: 48px 0;
-            max-width: 1120px;
-        }
+        .outcome-grid { grid-template-columns: 1fr; gap: 12px; margin: 28px 0; }
+        .outcome-item { padding: 24px 20px; }
+        .outcome-item h3 { font-size: 26px; }
+        .outcome-item p { font-size: 14px; }
 
-        .outcome-item {
-            text-align: center;
-            background: #F7F7F7;
-            border-radius: 12px;
-            padding: 40px 24px;
-        }
+        /* Learning */
+        .learning-box { padding: 28px 20px; margin: 28px 0 20px; }
+        .learning-box h3 { font-size: 20px; margin-bottom: 16px; }
+        .learning-box p { font-size: 15px; }
+        .reflection-box { padding: 16px 20px; }
+        .reflection-box p { font-size: 14px; }
 
-        .outcome-item h3 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #1a1a1a;
-        }
-
-        .outcome-item p {
-            font-size: 16px;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* Key Learnings */
-        .learning-box {
-            background: rgba(0,0,0,0.85);
-            color: white;
-            padding: 56px 48px;
-            border-radius: 12px;
-            margin: 48px 0 32px;
-            max-width: 1120px;
-        }
-
-        .learning-box h3 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            line-height: 1.3;
-        }
-
-        .learning-box p {
-            font-size: 18px;
-            line-height: 1.7;
-            margin-bottom: 20px;
-            opacity: 0.9;
-        }
-
-        .learning-box p:last-child { margin-bottom: 0; }
-
-        .reflection-box {
-            border-left: 3px solid #006DFF;
-            padding: 24px 32px;
-            background: #FAFAFA;
-            border-radius: 0 12px 12px 0;
-            max-width: 1120px;
-        }
-
-        .reflection-box p {
-            font-size: 17px;
-            line-height: 1.7;
-            color: #444;
-            margin: 0;
-        }
-
-        /* Footer */
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            color: #999;
-            font-size: 13px;
-            border-top: 1px solid #e5e5e5;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container, .nav-container { padding: 0 24px; }
-            .hero h1 { font-size: 40px; }
-            .section-title { font-size: 32px; }
-            .pillars-grid { grid-template-columns: 1fr; }
-            .outcome-grid { grid-template-columns: 1fr; }
-            .auth-evolution { flex-wrap: wrap; gap: 16px; }
-        }
-    
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            width: 100px;
-            height: 100px;
-            background: #f5f5f5;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-            border: none;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 200;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .back-to-top:hover {
-            transform: translateY(-4px);
-            background: #ebebeb;
-        }
-
-        .back-to-top svg {
-            width: 28px;
-            height: 28px;
-        }
-
-        .back-to-top span {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            font-weight: 600;
-            color: #333;
-            letter-spacing: 0.05em;
-        }
-        
-        /* Carousel */
-        .carousel-wrapper { margin-top: 48px; position: relative; }
-        .carousel-track-container { overflow: hidden; border-radius: 12px; border: 1px solid #e5e5e5; }
-        .carousel-track { display: flex; transition: transform 0.4s ease; }
-        .carousel-slide { min-width: 100%; background: #F7F7F7; }
-        .carousel-slide-image {
-            width: 100%; height: 560px;
-            display: flex; align-items: center; justify-content: center;
-            background: #ffffff; overflow: hidden;
-        }
-        .carousel-slide-image img { width: 100%; height: 100%; object-fit: contain; display: block; }
-        .carousel-caption { padding: 20px 32px; background: #ffffff; border-top: 1px solid #e5e5e5; }
-        .carousel-caption h3 { font-size: 18px; font-weight: 600; color: #1a1a1a; }
-        .carousel-controls { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
-        .carousel-btn {
-            width: 44px; height: 44px; border-radius: 50%;
-            border: 1px solid #e5e5e5; background: #ffffff;
-            cursor: pointer; display: flex; align-items: center;
-            justify-content: center; transition: all 0.2s; flex-shrink: 0;
-        }
-        .carousel-btn:hover { background: #006DFF; border-color: #006DFF; }
-        .carousel-btn:hover svg path { stroke: #ffffff; }
-        .carousel-btn svg { width: 18px; height: 18px; }
-        .carousel-dots { display: flex; gap: 8px; align-items: center; }
-        .carousel-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: #e5e5e5; cursor: pointer; transition: all 0.2s; border: none; padding: 0;
-        }
-        .carousel-dot.active { background: #006DFF; width: 24px; border-radius: 4px; }
-        .carousel-counter { font-size: 13px; color: #999; margin-left: auto; }
-        </style>
+        /* Back to top */
+        .back-to-top { width: 52px; height: 52px; bottom: 24px; right: 20px; border-radius: 12px; }
+        .back-to-top svg { width: 20px; height: 20px; }
+        .back-to-top span { display: none; }
+    }
+</style>
 </head>
 <body>
+
 <nav>
-<div class="nav-container">
-<a class="logo" href="index.html">
-<img alt="Cătălin Şofan" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAjACkDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAgHBgP/xAArEAAABAQEBQUBAQAAAAAAAAAAAQIDBAUGBwgRGFUTIUGU0xIxN3WzUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9MONlKVuRQ8ZPJ5MJ1DxLEyXCJTBvNIQaEtNLIzJTajzzWfX+chpulS3m81T3LHhDA38TTT7178IcZlhxspStyKHjJ5PJhOoeJYmS4RKYN5pCDQlppZGZKbUeeaz6/zkA03Spbzeap7ljwhpUt5vNU9yx4Q0qW83mqe5Y8IaVLebzVPcseEBxl7cP9G0RbCb1PKpnP3oyC4PDREvsqbP1vttnmSWkn7LPqXPITMKZvbh/o2iLYTep5VM5+9GQXB4aIl9lTZ+t9ts8yS0k/ZZ9S55CZgFmYG/iaafevfhDhgb+Jpp969+EOGBv4mmn3r34Q4aVLebzVPcseEA0qW83mqe5Y8IaVLebzVPcseENKlvN5qnuWPCGlS3m81T3LHhAcZe3D/RtEWwm9TyqZz96MguDw0RL7Kmz9b7bZ5klpJ+yz6lzyEzC5cRcqh5Dhgmcjg1urhpdCQEIyp0yNakNxDCEmoyIiM8iLPIi/wQ0AAAAAAAAAAA/9k="/>
-<span class="logo-name">Cătălin Şofan</span>
-</a>
-<ul class="nav-links">
-<li><a href="index.html#work">Work</a></li>
-<li><a href="index.html#process">Process</a></li>
-<li><a href="index.html#about">About</a></li>
-<li><a href="index.html#contact">Contact</a></li>
-</ul>
-</div>
+    <div class="nav-container">
+        <a class="logo" href="index.html">
+            <img alt="Cătălin Şofan" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAjACkDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAgHBgP/xAArEAAABAQEBQUBAQAAAAAAAAAAAQIDBAUGBwgRGFUTIUGU0xIxN3WzUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9MONlKVuRQ8ZPJ5MJ1DxLEyXCJTBvNIQaEtNLIzJTajzzWfX+chpulS3m81T3LHhDA38TTT7178IcZlhxspStyKHjJ5PJhOoeJYmS4RKYN5pCDQlppZGZKbUeeaz6/zkA03Spbzeap7ljwhpUt5vNU9yx4Q0qW83mqe5Y8IaVLebzVPcseEBxl7cP9G0RbCb1PKpnP3oyC4PDREvsqbP1vttnmSWkn7LPqXPITMKZvbh/o2iLYTep5VM5+9GQXB4aIl9lTZ+t9ts8yS0k/ZZ9S55CZgFmYG/iaafevfhDhgb+Jpp969+EOGBv4mmn3r34Q4aVLebzVPcseEA0qW83mqe5Y8IaVLebzVPcseENKlvN5qnuWPCGlS3m81T3LHhAcZe3D/RtEWwm9TyqZz96MguDw0RL7Kmz9b7bZ5klpJ+yz6lzyEzC5cRcqh5Dhgmcjg1urhpdCQEIyp0yNakNxDCEmoyIiM8iLPIi/wQ0AAAAAAAAAAA/9k="/>
+            <span class="logo-name">Cătălin Şofan</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="index.html#process">Process</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
 </nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+        <a class="logo" href="index.html" onclick="closeMobileNav()">
+            <img alt="Cătălin Şofan" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAjACkDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAgHBgP/xAArEAAABAQEBQUBAQAAAAAAAAAAAQIDBAUGBwgRGFUTIUGU0xIxN3WzUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9MONlKVuRQ8ZPJ5MJ1DxLEyXCJTBvNIQaEtNLIzJTajzzWfX+chpulS3m81T3LHhDA38TTT7178IcZlhxspStyKHjJ5PJhOoeJYmS4RKYN5pCDQlppZGZKbUeeaz6/zkA03Spbzeap7ljwhpUt5vNU9yx4Q0qW83mqe5Y8IaVLebzVPcseEBxl7cP9G0RbCb1PKpnP3oyC4PDREvsqbP1vttnmSWkn7LPqXPITMKZvbh/o2iLYTep5VM5+9GQXB4aIl9lTZ+t9ts8yS0k/ZZ9S55CZgFmYG/iaafevfhDhgb+Jpp969+EOGBv4mmn3r34Q4aVLebzVPcseEA0qW83mqe5Y8IaVLebzVPcseENKlvN5qnuWPCGlS3m81T3LHhAcZe3D/RtEWwm9TyqZz96MguDw0RL7Kmz9b7bZ5klpJ+yz6lzyEzC5cRcqh5Dhgmcjg1urhpdCQEIyp0yNakNxDCEmoyIiM8iLPIi/wQ0AAAAAAAAAAA/9k="/>
+            <span class="logo-name">Cătălin Şofan</span>
+        </a>
+        <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6l12 12" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+    </div>
+    <div class="mobile-nav-body">
+        <div class="mobile-nav-section-label">Work</div>
+        <a href="gravityzone_simplified.html" class="mobile-nav-link" onclick="closeMobileNav()">Enterprise Security Platform</a>
+        <a href="design_system_case_study.html" class="mobile-nav-link" onclick="closeMobileNav()">Company-Wide Design System</a>
+        <a href="myco_case_study.html" class="mobile-nav-link" onclick="closeMobileNav()">Healthcare Collaboration</a>
+        <a href="authentication_innovation.html" class="mobile-nav-link active" onclick="closeMobileNav()">Authentication Innovation</a>
+        <div class="mobile-nav-section-label">Process</div>
+        <a href="process_section.html" class="mobile-nav-link" onclick="closeMobileNav()">5-Step Design Framework</a>
+    </div>
+    <div class="mobile-nav-footer">
+        <a href="mailto:catalin.sofan@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/catalinsofan/" target="_blank">LinkedIn</a>
+    </div>
+</div>
+
 <!-- Hero -->
 <section class="hero">
-<div class="container">
-<a class="back-link" href="https://csofan.github.io/index.html">← Back to Work</a>
-<h1>Authentication Innovation</h1>
-<p class="meta">Role: Product Designer  ·  Timeline: 2025  ·  Bitdefender MSP, Cluj-Napoca</p>
-<p class="intro">Stepping outside my design brief to propose, research, and help ship Passkeys across Bitdefender's MSP platform. A faster, more secure authentication method that eventually expanded to the main Bitdefender platform.</p>
-</div>
+    <div class="container">
+        <a class="back-link" href="index.html#work">← Back to Work</a>
+        <h1>Authentication Innovation</h1>
+        <p class="meta">Role: Product Designer  ·  Timeline: 2025  ·  Bitdefender MSP, Cluj-Napoca</p>
+        <p class="intro">Stepping outside my design brief to propose, research, and help ship Passkeys across Bitdefender's MSP platform. A faster, more secure authentication method that eventually expanded to the main Bitdefender platform.</p>
+    </div>
 </section>
+
 <!-- Context -->
 <section style="background: #FAFAFA;">
-<div class="container">
-<div class="section-label">CONTEXT</div>
-<h2 class="section-title">Why Authentication Needed Rethinking</h2>
-<div class="section-content">
-<p>Authentication is the front door of any security product. For a cybersecurity company like Bitdefender, the irony of a friction-heavy or phishable login experience isn't lost on anyone. Passwords combined with 2FA codes were still the standard, but the landscape was shifting.</p>
-<p>This wasn't a brief that landed in my queue. I had been following the Passkeys rollout across major platforms for close to a year, paying attention to how adoption was going and whether anyone was rolling back. When I felt confident the technology was mature enough, I brought the idea to the table.</p>
-</div>
-<div class="auth-evolution">
-<div class="auth-step">
-<div class="auth-step-thumb">
-<img alt="Password" src="data:image/png;base64,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"/>
-</div>
-<div class="auth-step-label">Password</div>
-<div class="auth-step-sublabel">Phishable</div>
-</div>
-<div class="auth-arrow">→</div>
-<div class="auth-step">
-<div class="auth-step-thumb">
-<img alt="Password + 2FA" src="data:image/png;base64,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"/>
-</div>
-<div class="auth-step-label">Password + 2FA</div>
-<div class="auth-step-sublabel">Better, but slow</div>
-</div>
-<div class="auth-arrow">→</div>
-<div class="auth-step">
-<div class="auth-step-thumb">
-<img alt="Passkey" src="data:image/png;base64,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"/>
-</div>
-<div class="auth-step-label">Passkey</div>
-<div class="auth-step-sublabel">Fast. Secure. Simple.</div>
-</div>
-</div>
-</div>
-</section>
-<!-- The Story -->
-<section>
-<div class="container">
-<div class="section-label">THE STORY</div>
-<h2 class="section-title">Proactivity, Process, and Impact</h2>
-<div class="section-content">
-<p>This project has three distinct threads that are all equally part of the story. The initiative to propose it, the collaborative process to build it, and the outcome that went beyond what any of us expected.</p>
-</div>
-<div class="pillars-grid">
-<div class="pillar-card">
-<div class="pillar-number">01 - Proactivity</div>
-<h3>I spotted it before it was a requirement</h3>
-<p>For almost a year I tracked Passkey adoption across platforms like Apple, Google, and GitHub, watching for rollback signals, reading implementation postmortems, and forming a clear point of view. When the time felt right, I brought the proposal to the Engineering Director and Product Manager on the MSP team.</p>
-</div>
-<div class="pillar-card">
-<div class="pillar-number">02 - Process</div>
-<h3>Small team, fast thinking</h3>
-<p>Three of us worked through feasibility, user flow, and implementation scope together: Engineering Director, Product Manager, and myself. The technology was more integration-ready than expected, which meant we could move quickly. I led the UX side, mapping the login experience, removing friction, and making biometric and PIN-based entry feel intuitive to our MSP audience.</p>
-</div>
-<div class="pillar-card">
-<div class="pillar-number">03 - Impact</div>
-<h3>It grew beyond the MSP platform</h3>
-<p>After a successful rollout on the MSP platform, the main Bitdefender product team reached out to adopt the same pattern. Seeing something you initiated get picked up at a company-wide level is the kind of outcome that is hard to put on a Figma screen, but it is the one I am most proud of.</p>
-</div>
-</div>
-</div>
-</section>
-<!-- My Role -->
-<section style="background: #FAFAFA;">
-<div class="container">
-<div class="section-label">MY ROLE</div>
-<h2 class="section-title">What I Actually Did</h2>
-<div class="section-content">
-<p>My contribution here sat at the intersection of research, advocacy, and design execution.</p>
-<ul>
-<li>Tracked Passkey adoption trends for nearly a year before making the proposal, making sure the technology had proven itself elsewhere first</li>
-<li>Presented the case internally, translating security benefits into user experience language the team could act on</li>
-<li>Designed the Passkey onboarding and login flows, focusing on reducing cognitive load and supporting multiple authentication methods (biometric, face recognition, PIN)</li>
-<li>Collaborated with engineering throughout implementation to maintain the experience quality end-to-end</li>
-<li>Supported the pattern being extended to the main Bitdefender platform</li>
-</ul>
-</div>
-<div class="initiative-callout">
-<h3>Going beyond the brief</h3>
-<p>The value I want to highlight here is not just a UX deliverable. It is the willingness to look beyond the sprint backlog, research something independently, build confidence in a position, and then advocate for it clearly enough that the team acts on it. That is a habit, not a one-off.</p>
-</div>
-</div>
-</section>
-<!-- Design -->
-<section>
-<div class="container">
-<div class="section-label">DESIGN</div>
-<h2 class="section-title">The Experience</h2>
-<div class="section-content">
-<p>The design goal was straightforward: make the most secure option feel like the easiest one. Users can set up a Passkey from their account settings, and the login experience collapses to a single biometric or PIN prompt.</p>
-</div>
-
-<div class="carousel-wrapper">
-    <div class="carousel-track-container">
-        <div class="carousel-track" id="designCarouselTrack">
-
-            <div class="carousel-slide">
-                <div class="carousel-slide-image">
-                    <img src="login-screen.png" alt="Login screen"/>
-                </div>
-                <div class="carousel-caption"><h3>Login screen</h3></div>
+    <div class="container">
+        <div class="section-label">CONTEXT</div>
+        <h2 class="section-title">Why Authentication Needed Rethinking</h2>
+        <div class="section-content">
+            <p>Authentication is the front door of any security product. For a cybersecurity company like Bitdefender, the irony of a friction-heavy or phishable login experience isn't lost on anyone. Passwords combined with 2FA codes were still the standard, but the landscape was shifting.</p>
+            <p>This wasn't a brief that landed in my queue. I had been following the Passkeys rollout across major platforms for close to a year, paying attention to how adoption was going and whether anyone was rolling back. When I felt confident the technology was mature enough, I brought the idea to the table.</p>
+        </div>
+        <div class="auth-evolution">
+            <div class="auth-step">
+                <div class="auth-step-thumb">
+                    <img alt="Password" src="auth-step-password.png"/>                </div>
+                <div class="auth-step-label">Password</div>
+                <div class="auth-step-sublabel">Phishable</div>
             </div>
-
-            <div class="carousel-slide">
-                <div class="carousel-slide-image">
-                    <img src="authentication-page.png" alt="Authentication page"/>
-                </div>
-                <div class="carousel-caption"><h3>Authentication page</h3></div>
+            <div class="auth-arrow">→</div>
+            <div class="auth-step">
+                <div class="auth-step-thumb">
+                    <img alt="Password + 2FA" src="auth-step-2fa.png"/>                </div>
+                <div class="auth-step-label">Password + 2FA</div>
+                <div class="auth-step-sublabel">Better, but slow</div>
             </div>
-
-            <div class="carousel-slide">
-                <div class="carousel-slide-image">
-                    <img src="enabling-passkeys.png" alt="Enabling passkeys"/>
-                </div>
-                <div class="carousel-caption"><h3>Enabling passkeys</h3></div>
+            <div class="auth-arrow">→</div>
+            <div class="auth-step">
+                <div class="auth-step-thumb">
+                    <img alt="Passkey" src="auth-step-passkey.png"/>                </div>
+                <div class="auth-step-label">Passkey</div>
+                <div class="auth-step-sublabel">Fast. Secure. Simple.</div>
             </div>
-
-            <div class="carousel-slide">
-                <div class="carousel-slide-image">
-                    <img src="list-of-passkeys.png" alt="List of passkeys"/>
-                </div>
-                <div class="carousel-caption"><h3>List of passkeys</h3></div>
-            </div>
-
         </div>
     </div>
-    <div class="carousel-controls">
-        <button class="carousel-btn" id="designPrevBtn" aria-label="Previous">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button class="carousel-btn" id="designNextBtn" aria-label="Next">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M9 18L15 12L9 6" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="carousel-dots" id="designCarouselDots"></div>
-        <span class="carousel-counter" id="designCarouselCounter">1 / 4</span>
-    </div>
-</div>
+</section>
 
-</div>
+<!-- The Story -->
+<section>
+    <div class="container">
+        <div class="section-label">THE STORY</div>
+        <h2 class="section-title">Proactivity, Process, and Impact</h2>
+        <div class="section-content">
+            <p>This project has three distinct threads that are all equally part of the story. The initiative to propose it, the collaborative process to build it, and the outcome that went beyond what any of us expected.</p>
+        </div>
+        <div class="pillars-grid">
+            <div class="pillar-card">
+                <div class="pillar-number">01 - Proactivity</div>
+                <h3>I spotted it before it was a requirement</h3>
+                <p>For almost a year I tracked Passkey adoption across platforms like Apple, Google, and GitHub, watching for rollback signals, reading implementation postmortems, and forming a clear point of view. When the time felt right, I brought the proposal to the Engineering Director and Product Manager on the MSP team.</p>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-number">02 - Process</div>
+                <h3>Small team, fast thinking</h3>
+                <p>Three of us worked through feasibility, user flow, and implementation scope together: Engineering Director, Product Manager, and myself. The technology was more integration-ready than expected, which meant we could move quickly. I led the UX side, mapping the login experience, removing friction, and making biometric and PIN-based entry feel intuitive to our MSP audience.</p>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-number">03 - Impact</div>
+                <h3>It grew beyond the MSP platform</h3>
+                <p>After a successful rollout on the MSP platform, the main Bitdefender product team reached out to adopt the same pattern. Seeing something you initiated get picked up at a company-wide level is the kind of outcome that is hard to put on a Figma screen, but it is the one I am most proud of.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- My Role -->
+<section style="background: #FAFAFA;">
+    <div class="container">
+        <div class="section-label">MY ROLE</div>
+        <h2 class="section-title">What I Actually Did</h2>
+        <div class="section-content">
+            <p>My contribution here sat at the intersection of research, advocacy, and design execution.</p>
+            <ul>
+                <li>Tracked Passkey adoption trends for nearly a year before making the proposal, making sure the technology had proven itself elsewhere first</li>
+                <li>Presented the case internally, translating security benefits into user experience language the team could act on</li>
+                <li>Designed the Passkey onboarding and login flows, focusing on reducing cognitive load and supporting multiple authentication methods (biometric, face recognition, PIN)</li>
+                <li>Collaborated with engineering throughout implementation to maintain the experience quality end-to-end</li>
+                <li>Supported the pattern being extended to the main Bitdefender platform</li>
+            </ul>
+        </div>
+        <div class="initiative-callout">
+            <h3>Going beyond the brief</h3>
+            <p>The value I want to highlight here is not just a UX deliverable. It is the willingness to look beyond the sprint backlog, research something independently, build confidence in a position, and then advocate for it clearly enough that the team acts on it. That is a habit, not a one-off.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Design -->
+<section>
+    <div class="container">
+        <div class="section-label">DESIGN</div>
+        <h2 class="section-title">The Experience</h2>
+        <div class="section-content">
+            <p>The design goal was straightforward: make the most secure option feel like the easiest one. Users can set up a Passkey from their account settings, and the login experience collapses to a single biometric or PIN prompt.</p>
+        </div>
+        <div class="carousel-wrapper">
+            <div class="carousel-track-container">
+                <div class="carousel-track" id="designCarouselTrack">
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img src="login-screen.png" alt="Login screen"/></div>
+                        <div class="carousel-caption"><h3>Login screen</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img src="authentication-page.png" alt="Authentication page"/></div>
+                        <div class="carousel-caption"><h3>Authentication page</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img src="enabling-passkeys.png" alt="Enabling passkeys"/></div>
+                        <div class="carousel-caption"><h3>Enabling passkeys</h3></div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-slide-image"><img src="list-of-passkeys.png" alt="List of passkeys"/></div>
+                        <div class="carousel-caption"><h3>List of passkeys</h3></div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button class="carousel-btn" id="designPrevBtn" aria-label="Previous">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button class="carousel-btn" id="designNextBtn" aria-label="Next">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M9 18L15 12L9 6" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <div class="carousel-dots" id="designCarouselDots"></div>
+                <span class="carousel-counter" id="designCarouselCounter">1 / 4</span>
+            </div>
+            <div class="carousel-pagination" id="designCarouselLines"></div>
+        </div>
+    </div>
 </section>
 
 <!-- Results -->
 <section style="background: #FAFAFA;">
-<div class="container">
-<div class="section-label">RESULTS</div>
-<h2 class="section-title">Impact and Outcomes</h2>
-<div class="outcome-grid">
-<div class="outcome-item">
-<h3>MSP Platform</h3>
-<p>Passkeys shipped and live for the MSP product line</p>
-</div>
-<div class="outcome-item">
-<h3>Company-Wide</h3>
-<p>Pattern adopted by the main Bitdefender platform</p>
-</div>
-<div class="outcome-item">
-<h3>~1 Year</h3>
-<p>Of independent research before the proposal was made</p>
-</div>
-</div>
-<div class="section-content">
-<p>The most meaningful result was the ripple effect. When the main Bitdefender platform team reached out to use the same pattern, it validated both the quality of the work and the value of a designer who actively monitors the industry and brings ideas to the product, not just executes on them.</p>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">RESULTS</div>
+        <h2 class="section-title">Impact and Outcomes</h2>
+        <div class="outcome-grid">
+            <div class="outcome-item">
+                <h3>MSP Platform</h3>
+                <p>Passkeys shipped and live for the MSP product line</p>
+            </div>
+            <div class="outcome-item">
+                <h3>Company-Wide</h3>
+                <p>Pattern adopted by the main Bitdefender platform</p>
+            </div>
+            <div class="outcome-item">
+                <h3>~1 Year</h3>
+                <p>Of independent research before the proposal was made</p>
+            </div>
+        </div>
+        <div class="section-content">
+            <p>The most meaningful result was the ripple effect. When the main Bitdefender platform team reached out to use the same pattern, it validated both the quality of the work and the value of a designer who actively monitors the industry and brings ideas to the product, not just executes on them.</p>
+        </div>
+    </div>
 </section>
+
 <!-- Key Learnings -->
 <section>
-<div class="container">
-<div class="section-label">KEY LEARNINGS</div>
-<h2 class="section-title">What I Learned</h2>
-<div class="learning-box">
-<h3>Stepping outside your role is a skill, not a violation</h3>
-<p>There is a version of a designer who waits for the brief. This project reminded me that the most valuable contributions often start with a question nobody asked yet. The hard part is not the design. It is building enough conviction to propose something, and enough patience to wait until the timing is right.</p>
-<p>Passkeys had been around for a while before I raised them. I made a deliberate choice to wait and observe, rather than jump on a trend. That restraint was as important as the initiative itself.</p>
-</div>
-<div class="reflection-box">
-<p><strong>What I'd do differently:</strong> I'd involve a broader user research panel earlier, particularly MSP administrators who manage dozens of client accounts. Their authentication patterns are different from a typical end user's, and some edge cases in multi-account environments surfaced later than they should have.</p>
-</div>
-</div>
+    <div class="container">
+        <div class="section-label">KEY LEARNINGS</div>
+        <h2 class="section-title">What I Learned</h2>
+        <div class="learning-box">
+            <h3>Stepping outside your role is a skill, not a violation</h3>
+            <p>There is a version of a designer who waits for the brief. This project reminded me that the most valuable contributions often start with a question nobody asked yet. The hard part is not the design. It is building enough conviction to propose something, and enough patience to wait until the timing is right.</p>
+            <p>Passkeys had been around for a while before I raised them. I made a deliberate choice to wait and observe, rather than jump on a trend. That restraint was as important as the initiative itself.</p>
+        </div>
+        <div class="reflection-box">
+            <p><strong>What I'd do differently:</strong> I'd involve a broader user research panel earlier, particularly MSP administrators who manage dozens of client accounts. Their authentication patterns are different from a typical end user's, and some edge cases in multi-account environments surfaced later than they should have.</p>
+        </div>
+    </div>
 </section>
+
 <footer>
-<div class="container">
-<p>© 2026 Cătălin Şofan. Based in Cluj-Napoca, Romania.</p>
-</div>
+    <div class="container">
+        <p>© 2026 Cătălin Şofan. Based in Cluj-Napoca, Romania.</p>
+    </div>
 </footer>
-<!-- Lightbox -->
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 19V5M12 5L6 11M12 5L18 11" stroke="#333333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>TOP</span>
+</button>
+
 <script>
+    // Hamburger
+    const hamburgerBtn   = document.getElementById('hamburgerBtn');
+    const mobileNav      = document.getElementById('mobileNav');
+    const mobileNavClose = document.getElementById('mobileNavClose');
 
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeLightboxBtn();
-        });
-    
-        document.addEventListener('DOMContentLoaded', () => {
-            const btn = document.getElementById('backToTop');
-            window.addEventListener('scroll', () => {
-                const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-                btn.classList.toggle('visible', scrolled > 0.5);
-            });
-        });
-    
-        function initCarousel(trackId, prevId, nextId, dotsId, counterId) {
-            const track = document.getElementById(trackId);
-            const slides = track.querySelectorAll('.carousel-slide');
-            const dotsContainer = document.getElementById(dotsId);
-            const counter = document.getElementById(counterId);
-            const total = slides.length;
-            let current = 0;
+    hamburgerBtn.addEventListener('click', () => {
+        mobileNav.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    });
 
-            slides.forEach((_, i) => {
-                const dot = document.createElement('button');
-                dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-                dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-                dot.addEventListener('click', () => goTo(i));
-                dotsContainer.appendChild(dot);
-            });
+    mobileNavClose.addEventListener('click', closeMobileNav);
 
-            function goTo(index) {
-                current = (index + total) % total;
-                track.style.transform = `translateX(-${current * 100}%)`;
-                dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
-                    d.classList.toggle('active', i === current);
-                });
-                counter.textContent = `${current + 1} / ${total}`;
-            }
+    function closeMobileNav() {
+        mobileNav.classList.remove('open');
+        document.body.style.overflow = '';
+    }
 
-            document.getElementById(prevId).addEventListener('click', () => goTo(current - 1));
-            document.getElementById(nextId).addEventListener('click', () => goTo(current + 1));
-        }
+    // Carousel
+    const track          = document.getElementById('designCarouselTrack');
+    const slides         = track.querySelectorAll('.carousel-slide');
+    const dotsContainer  = document.getElementById('designCarouselDots');
+    const counter        = document.getElementById('designCarouselCounter');
+    const linesContainer = document.getElementById('designCarouselLines');
+    const total          = slides.length;
+    let current          = 0;
 
-        initCarousel('designCarouselTrack', 'designPrevBtn', 'designNextBtn', 'designCarouselDots', 'designCarouselCounter');
-    </script>
+    slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(dot);
+    });
 
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 19V5M12 5L6 11M12 5L18 11" stroke="#333333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>TOP</span>
-    </button>
+    slides.forEach((_, i) => {
+        const line = document.createElement('div');
+        line.className = 'carousel-pagination-line' + (i === 0 ? ' active' : '');
+        linesContainer.appendChild(line);
+    });
+    const mobileCounter = document.createElement('span');
+    mobileCounter.className = 'carousel-pagination-counter';
+    mobileCounter.textContent = `1 / ${total}`;
+    linesContainer.appendChild(mobileCounter);
+
+    function goTo(index) {
+        current = (index + total) % total;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+        linesContainer.querySelectorAll('.carousel-pagination-line').forEach((l, i) => l.classList.toggle('active', i === current));
+        counter.textContent = `${current + 1} / ${total}`;
+        mobileCounter.textContent = `${current + 1} / ${total}`;
+    }
+
+    let startX = 0;
+    track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+    }, { passive: true });
+
+    document.getElementById('designPrevBtn').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('designNextBtn').addEventListener('click', () => goTo(current + 1));
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    // Back to top
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        backToTop.classList.toggle('visible', scrolled > 0.3);
+    });
+</script>
 
 </body>
 </html>
