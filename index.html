@@ -169,10 +169,9 @@
         /* ── HERO ── */
         .hero { padding: 120px 0 100px; }
 
-        .hero-tag { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #666; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-        .hero-tag::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #666; }
         .hero h1 { font-size: 56px; font-weight: 700; line-height: 1.2; margin-bottom: 24px; max-width: 900px; }
-        .hero .description { font-size: 16px; color: #666; margin-bottom: 40px; max-width: 720px; line-height: 1.7; }
+        .hero .subtitle { font-size: 20px; color: #666; margin-bottom: 32px; max-width: 1120px; line-height: 1.6; }
+        .hero .description { font-size: 16px; color: #666; margin-bottom: 40px; max-width: 1120px; line-height: 1.7; }
 
         .cta-buttons { display: flex; gap: 16px; }
 
@@ -426,9 +425,6 @@
             .hero h1 { font-size: 30px; line-height: 1.25; }
             .hero .subtitle { font-size: 16px; }
             .hero .description { font-size: 14px; }
-            .hero-tag { flex-wrap: wrap; gap: 0; }
-            .hero-tag::before { margin-right: 8px; }
-            .hero-tag .hero-tag-sep { display: block; width: 100%; height: 0; }
             .cta-buttons { flex-direction: column; gap: 10px; }
             .btn { width: 100%; text-align: center; padding: 14px 24px; }
 
@@ -471,7 +467,7 @@
             }
 
             .project-title { font-size: 16px; font-weight: 600; color: #1a1a1a !important; margin-bottom: 4px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; }
-            .project-title br { display: none; }
+            .project-title br,
             .process-card-title br { display: none; }
             .project-description { display: none; }
             .project-footer { margin-top: 0; }
@@ -582,7 +578,7 @@
             <a href="process_section.html" class="mobile-nav-link" onclick="closeMobileNav()">5-Step Design Framework</a>
         </div>
         <div class="mobile-nav-footer">
-            <a href="/cdn-cgi/l/email-protection#f0939184919c999ede839f96919eb0979d91999cde939f9d">Email</a>
+            <a href="mailto:catalin.sofan@gmail.com">Email</a>
             <a href="https://www.linkedin.com/in/catalinsofan/" target="_blank">LinkedIn</a>
         </div>
     </div>
@@ -590,9 +586,9 @@
     <!-- Hero -->
     <section class="hero">
         <div class="container">
-            <p class="hero-tag">Senior Product Designer<span class="hero-tag-sep"></span>· Open to work</p>
-            <h1>Enterprise systems.<br><span style="color: #006DFF;">Human clarity.</span><br>AI precision.</h1>
-            <p class="description">10+ years turning complex B2B and SaaS products into interfaces people actually understand. From cybersecurity platform to healthcare collaboration, I bridge technical depth with user simplicity, now accelerated by AI.</p>
+            <h1>Senior Product Designer<br>specializing in enterprise<br>B2B/SaaS products</h1>
+            <p class="subtitle">Designing complex systems that balance user needs with business goals</p>
+            <p class="description">18+ years crafting intuitive experiences for cybersecurity, healthcare, and business intelligence platforms.<br>I bridge the gap between technical complexity and user simplicity.</p>
         </div>
     </section>
 
@@ -603,12 +599,12 @@
             <h2 class="section-title">Case Studies</h2>
             <div class="projects-grid">
 
-                <div class="project-card" style="position: relative; padding: 0; background: #ffffff;" onclick="window.location.href='authentication_innovation.html'">
-                    <div class="project-card-image-bg" style="background-image: url('card-authentication-innovation.png');"></div>
+                <div class="project-card" style="position: relative; padding: 0; background: #ffffff;" onclick="window.location.href='gravityzone_simplified.html'">
+                    <div class="project-card-image-bg" style="background-image: url('card-enterprise-security.png');"></div>
                     <div class="project-card-content">
                         <div style="flex: 1;">
-                            <h3 class="project-title" style="color: #1a1a1a;">Authentication<br>Innovation</h3>
-                            <p class="project-description" style="color: #444;">Next-generation authentication<br>feature leveraging AI research<br>for strategic implementation.</p>
+                            <h3 class="project-title" style="color: #1a1a1a;">Enterprise<br>Security Platform</h3>
+                            <p class="project-description" style="color: #444;">Simplifying a complex enterprise<br>security plaform for MSP user.<br>Removing clutter, preserving power.</p>
                         </div>
                         <div class="project-footer">
                             <p class="project-meta" style="color: #666;">Bitdefender • 2024</p>
@@ -629,19 +625,6 @@
                     </div>
                 </div>
 
-                <div class="project-card" style="position: relative; padding: 0; background: #ffffff;" onclick="window.location.href='gravityzone_simplified.html'">
-                    <div class="project-card-image-bg" style="background-image: url('card-enterprise-security.png');"></div>
-                    <div class="project-card-content">
-                        <div style="flex: 1;">
-                            <h3 class="project-title" style="color: #1a1a1a;">Enterprise<br>Security Platform</h3>
-                            <p class="project-description" style="color: #444;">Simplifying a complex enterprise<br>security platform for MSP users.<br>Removing clutter, preserving power.</p>
-                        </div>
-                        <div class="project-footer">
-                            <p class="project-meta" style="color: #666;">Bitdefender • 2024</p>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="project-card" style="position: relative; padding: 0; background: #ffffff;" onclick="window.location.href='myco_case_study.html'">
                     <div class="project-card-image-bg" style="background-image: url('card-healthcare-collaboration.png');"></div>
                     <div class="project-card-content">
@@ -651,6 +634,19 @@
                         </div>
                         <div class="project-footer">
                             <p class="project-meta" style="color: #666;">Ascom • 2019</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" style="position: relative; padding: 0; background: #ffffff;" onclick="window.location.href='authentication_innovation.html'">
+                    <div class="project-card-image-bg" style="background-image: url('card-authentication-innovation.png');"></div>
+                    <div class="project-card-content">
+                        <div style="flex: 1;">
+                            <h3 class="project-title" style="color: #1a1a1a;">Authentication<br>Innovation</h3>
+                            <p class="project-description" style="color: #444;">Next-generation authentication<br>feature leveraging AI research<br>for strategic implementation.</p>
+                        </div>
+                        <div class="project-footer">
+                            <p class="project-meta" style="color: #666;">Bitdefender • 2024</p>
                         </div>
                     </div>
                 </div>
@@ -837,7 +833,7 @@
                 <p>Open to Senior Product Design and Lead opportunities</p>
             </div>
             <div class="contact-links">
-                <a href="/cdn-cgi/l/email-protection#fe9d9f8a9f929790d08d91989f90be99939f9792d09d9193" class="contact-link">Email</a>
+                <a href="mailto:catalin.sofan@gmail.com" class="contact-link">Email</a>
                 <a href="https://www.linkedin.com/in/catalinsofan/" target="_blank" class="contact-link">LinkedIn</a>
             </div>
         </div>
@@ -856,7 +852,7 @@
         <span>TOP</span>
     </button>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // Hamburger
         const hamburgerBtn   = document.getElementById('hamburgerBtn');
         const mobileNav      = document.getElementById('mobileNav');
@@ -958,4 +954,10 @@
         // Back to top
         const backToTop = document.getElementById('backToTop');
         window.addEventListener('scroll', () => {
-       
+            const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+            backToTop.classList.toggle('visible', scrolled > 0.3);
+        });
+    </script>
+
+</body>
+</html>
